@@ -88,6 +88,7 @@ button {
   padding: 0.25rem 0.5rem;
   animation: review-marquee var(--marquee-duration, 40s) linear infinite;
   will-change: transform;
+  overflow: visible;
 }
 
 .review-marquee:hover .review-marquee-track {

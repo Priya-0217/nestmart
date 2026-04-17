@@ -92,13 +92,14 @@ export const products: Product[] = [
     category: 'Bedroom',
     brand: 'DreamFold',
     tag: 'Hot Deal',
+    imageContext: 'bedroom',
     rating: 4.5,
     reviewCount: 188,
     price: 699,
     compareAtPrice: 899,
     stock: 26,
     images: [
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=1400&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1400&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1484101403633-562f891dc89a?q=80&w=1400&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1616594039964-9f9d8b4f2f0a?q=80&w=1400&auto=format&fit=crop'
     ],
@@ -288,6 +289,7 @@ export const products: Product[] = [
     category: 'Bedroom',
     brand: 'Reflecta',
     tag: 'Top Rated',
+    imageContext: 'bedroom',
     rating: 4.7,
     reviewCount: 173,
     price: 259,
@@ -338,6 +340,20 @@ export const products: Product[] = [
     ]
   }
 ];
+
+function validateBedroomImages(list: Product[]) {
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
+
+  list.forEach((product) => {
+    if (product.category === 'Bedroom' && product.imageContext !== 'bedroom') {
+      console.warn(`[catalog] Bedroom product missing imageContext: ${product.name}`);
+    }
+  });
+}
+
+validateBedroomImages(products);
 
 export const categories: Category[] = [
   { id: 'cat-1', name: 'Living Room', href: '/products?category=Living%20Room', image: products[0].images[0], count: 18 },

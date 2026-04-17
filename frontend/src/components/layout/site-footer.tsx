@@ -1,8 +1,16 @@
 import Link from 'next/link';
-import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+
+const socialLinks = [
+  { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
+  { label: 'Instagram', href: 'https://instagram.com', icon: Instagram },
+  { label: 'Twitter', href: 'https://x.com', icon: Twitter },
+  { label: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
+  { label: 'YouTube', href: 'https://youtube.com', icon: Youtube }
+];
 
 export function SiteFooter() {
   return (
@@ -15,10 +23,17 @@ export function SiteFooter() {
               NestMart curates furniture, decor, and everyday pieces that balance utility, warmth, and long-term quality.
             </p>
             <div className="mt-4 flex gap-2">
-              {[Facebook, Instagram, Twitter, Linkedin].map((Icon, idx) => (
-                <button key={idx} className="icon-button focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 hover:bg-muted">
+              {socialLinks.map(({ label, href, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="icon-button focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 hover:bg-muted"
+                >
                   <Icon className="h-4 w-4" />
-                </button>
+                </a>
               ))}
             </div>
           </div>
@@ -43,9 +58,12 @@ export function SiteFooter() {
           <div>
             <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground/75">Newsletter</h4>
             <p className="mb-3 text-sm text-foreground/65">Get product launches and seasonal savings.</p>
-            <form className="space-y-2">
-              <Input type="email" placeholder="you@example.com" />
-              <Button className="w-full">Subscribe</Button>
+            <form className="space-y-2" action="https://formsubmit.co/nestmartdemo@mailinator.com" method="POST" target="_blank">
+              <Input type="email" name="email" placeholder="you@example.com" required />
+              <input type="hidden" name="source" value="nestmart-footer-newsletter" />
+              <input type="hidden" name="_subject" value="New NestMart newsletter signup" />
+              <input type="hidden" name="_captcha" value="false" />
+              <Button type="submit" className="w-full">Subscribe</Button>
             </form>
           </div>
         </div>

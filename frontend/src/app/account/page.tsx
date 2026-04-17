@@ -29,9 +29,22 @@ export default function AccountPage() {
             <StatCard label="Reward Tier" value="Gold" icon={<Star className="h-4 w-4 text-primary" />} />
           </div>
 
-          <ProfileCard profile={profile} />
-          <OrdersTable orders={orders} />
-          <WishlistPanel products={products} />
+          <section id="profile" className="scroll-mt-24">
+            <ProfileCard profile={profile} />
+          </section>
+
+          <section id="orders" className="scroll-mt-24">
+            <OrdersTable orders={orders} />
+          </section>
+
+          <section id="wishlist" className="scroll-mt-24">
+            <WishlistPanel products={products} />
+          </section>
+
+          <section id="settings" className="surface scroll-mt-24 p-5 sm:p-6">
+            <h2 className="text-lg font-semibold">Settings</h2>
+            <p className="mt-2 text-sm text-foreground/70">Notification and security controls are coming soon. For now, you can update your profile details above.</p>
+          </section>
         </div>
       </div>
     </div>

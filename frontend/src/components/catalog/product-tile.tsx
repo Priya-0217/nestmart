@@ -14,6 +14,7 @@ import { PriceTag } from '@/components/ui/price-tag';
 import { RatingStars } from '@/components/ui/rating-stars';
 import { useCartStore } from '@/store/cart-store';
 import { useWishlistStore } from '@/store/wishlist-store';
+import { useToastStore } from '@/store/toast-store';
 import { trackProductView } from '@/lib/personalization';
 import { TRANSITION_FAST, TRANSITION_STANDARD } from '@/lib/motion';
 
@@ -26,6 +27,7 @@ export function ProductTile({ product }: ProductTileProps) {
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isWishlisted = useWishlistStore((state) => state.productIds.includes(product.id));
+  const pushToast = useToastStore((state) => state.push);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [added, setAdded] = useState(false);
   const secondaryImage = product.images[1] ?? product.images[0];
@@ -34,7 +36,8 @@ export function ProductTile({ product }: ProductTileProps) {
     const firstVariant = product.variants[0];
     addItem(product.id, firstVariant.id, 1);
     setAdded(true);
-    window.setTimeout(() => setAdded(false), 1200);
+    pushToast('Added to cart!', 'success');
+    window.setTimeout(() => setAdded(false), 2000);
   };
 
   return (
@@ -58,10 +61,10 @@ export function ProductTile({ product }: ProductTileProps) {
               sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover opacity-0 transition-all duration-500 ease-in-out group-hover:scale-[1.06] group-hover:opacity-100"
             />
-            <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/25 opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100">
+            <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-1 bg-black/25 opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100">
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
                 onClick={(event) => {
                   event.preventDefault();
                   handleAdd();
@@ -72,7 +75,7 @@ export function ProductTile({ product }: ProductTileProps) {
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleWishlist(product.id);
@@ -83,7 +86,7 @@ export function ProductTile({ product }: ProductTileProps) {
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
                 onClick={(event) => {
                   event.preventDefault();
                   trackProductView(product.id, product.category);

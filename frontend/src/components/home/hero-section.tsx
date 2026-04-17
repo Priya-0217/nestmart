@@ -21,6 +21,7 @@ type HeroSlide = {
 export function HeroSection({ slides }: { slides: HeroSlide[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  const [firstImageLoaded, setFirstImageLoaded] = useState(false);
   const slideDuration = 6000;
 
   useEffect(() => {
@@ -46,11 +47,28 @@ export function HeroSection({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <section className="surface overflow-hidden p-1">
-      <div className="relative h-[360px] overflow-hidden rounded-[1rem] md:h-[460px]" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+      <div
+        className="relative min-h-[420px] h-[420px] overflow-hidden rounded-[1rem] md:min-h-[520px] md:h-[520px]"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        {!firstImageLoaded ? <div className="absolute inset-0 bg-[#f0ebe3]" /> : null}
         <AnimatePresence mode="wait">
           <motion.div key={activeSlide.id} className="absolute inset-0" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={TRANSITION_SLOW}>
             <motion.div className="absolute inset-0" animate={{ x: parallax.x, y: parallax.y, scale: 1.06 }} transition={{ duration: slideDuration / 1000, ease: 'linear' }}>
-              <Image src={activeSlide.image} alt={activeSlide.title} fill className="object-cover" priority sizes="100vw" />
+              <Image
+                src={activeSlide.image}
+                alt={activeSlide.title}
+                fill
+                className="object-cover"
+                priority={activeIndex === 0}
+                sizes="100vw"
+                onLoadingComplete={() => {
+                  if (!firstImageLoaded && activeIndex === 0) {
+                    setFirstImageLoaded(true);
+                  }
+                }}
+              />
             </motion.div>
             <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/45 to-transparent" />
             <motion.div animate={{ x: parallax.x * 0.6, y: parallax.y * 0.6 }} transition={TRANSITION_FAST} style={{ willChange: 'transform' }}>

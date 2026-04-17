@@ -30,7 +30,7 @@ export function ReviewMarquee({ testimonials, className }: ReviewMarqueeProps) {
 
   return (
     <div className={cn('review-marquee relative', className)} style={marqueeStyle}>
-      <div className="review-marquee-scroll flex w-full overflow-x-auto">
+      <div className="review-marquee-scroll flex w-full overflow-x-auto px-4 sm:px-6 scroll-pl-4 sm:scroll-pl-6">
         <div className="review-marquee-track">
           {trackItems.map((testimonial, index) => (
             <article key={`${testimonial.id}-${index}`} className="review-card">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { ActiveFilters } from '@/components/catalog/active-filters';
@@ -14,6 +14,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 type ProductsPageContentProps = {
   products: Product[];
   initialCategory?: string;
+  initialQuery?: string;
 };
 
 const initialFilters: Filters = {
@@ -24,13 +25,22 @@ const initialFilters: Filters = {
   maxPrice: 1500
 };
 
-export function ProductsPageContent({ products, initialCategory }: ProductsPageContentProps) {
-  const [filters, setFilters] = useState<Filters>({
+export function ProductsPageContent({ products, initialCategory, initialQuery }: ProductsPageContentProps) {
+  const [filters, setFilters] = useState<Filters>(() => ({
     ...initialFilters,
+    query: initialQuery ?? '',
     categories: initialCategory ? [initialCategory] : []
-  });
+  }));
   const [sort, setSort] = useState<SortValue>('featured');
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    setFilters((current) => ({
+      ...current,
+      query: initialQuery ?? '',
+      categories: initialCategory ? [initialCategory] : []
+    }));
+  }, [initialCategory, initialQuery]);
 
   const filteredProducts = useMemo(() => {
     const query = filters.query.trim().toLowerCase();

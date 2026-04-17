@@ -5,7 +5,7 @@ import { ProductGallery } from '@/components/product/product-gallery';
 import { ProductInfo } from '@/components/product/product-info';
 import { RelatedProducts } from '@/components/product/related-products';
 import { SpecsTable } from '@/components/product/specs-table';
-import { getProductBySlug, getRelatedProducts, products } from '@/data/catalog';
+import { getProductById, getProductBySlug, getRelatedProducts, products } from '@/data/catalog';
 
 type ProductDetailPageProps = {
   params: {
@@ -18,7 +18,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
-  const product = getProductBySlug(params.slug);
+  const product = getProductBySlug(params.slug) ?? getProductById(params.slug);
   if (!product) {
     return { title: 'Product Not Found' };
   }
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
 }
 
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = getProductBySlug(params.slug);
+  const product = getProductBySlug(params.slug) ?? getProductById(params.slug);
   if (!product) {
     notFound();
   }

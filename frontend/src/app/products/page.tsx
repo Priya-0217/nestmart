@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 type ProductsPageProps = {
   searchParams: {
     category?: string;
+    search?: string;
   };
 };
 
 export default function ProductsPage({ searchParams }: ProductsPageProps) {
-  return <ProductsPageContent products={products} initialCategory={searchParams.category} />;
+  return <ProductsPageContent products={products} initialCategory={searchParams.category} initialQuery={searchParams.search} />;
 }

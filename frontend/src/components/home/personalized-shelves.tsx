@@ -7,6 +7,7 @@ import { SectionHeading } from '@/components/ui/section-heading';
 import { getCategoryClicks, getRecentlyViewed } from '@/lib/personalization';
 
 const MAX_ITEMS = 6;
+const MIN_RECENT_ITEMS = 3;
 
 export function PersonalizedShelves({ products }: { products: Product[] }) {
   const [recentIds, setRecentIds] = useState<string[]>([]);
@@ -57,13 +58,15 @@ export function PersonalizedShelves({ products }: { products: Product[] }) {
     return picked.slice(0, MAX_ITEMS);
   }, [categoryClicks, products, recentIds]);
 
-  if (recentlyViewed.length === 0 && recommended.length === 0) {
+  const showRecentlyViewed = recentlyViewed.length >= MIN_RECENT_ITEMS;
+
+  if (!showRecentlyViewed && recommended.length === 0) {
     return null;
   }
 
   return (
     <section className="space-y-8">
-      {recentlyViewed.length > 0 ? (
+      {showRecentlyViewed ? (
         <div className="space-y-4">
           <SectionHeading title="Recently viewed" subtitle="Pick up where you left off." />
           <ProductGrid products={recentlyViewed} />
