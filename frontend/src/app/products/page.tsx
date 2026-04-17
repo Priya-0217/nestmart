@@ -1,0 +1,18 @@
+import { Metadata } from 'next';
+import { products } from '@/data/catalog';
+import { ProductsPageContent } from '@/components/catalog/products-page-content';
+
+export const metadata: Metadata = {
+  title: 'Products',
+  description: 'Browse NestMart products with category filters, price and rating controls, and sorting.'
+};
+
+type ProductsPageProps = {
+  searchParams: {
+    category?: string;
+  };
+};
+
+export default function ProductsPage({ searchParams }: ProductsPageProps) {
+  return <ProductsPageContent products={products} initialCategory={searchParams.category} />;
+}

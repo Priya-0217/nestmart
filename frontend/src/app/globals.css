@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  @apply border-border antialiased;
+}
+
+body {
+  @apply bg-background bg-grain font-body text-foreground overflow-x-hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-display tracking-tight;
+}
+
+a {
+  @apply transition-colors;
+}
+
+::selection {
+  @apply bg-primary/20 text-foreground;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-primary via-emerald-600 to-teal-500 bg-clip-text text-transparent;
+}
+
+.surface {
+  @apply rounded-2xl border border-border bg-card shadow-card;
+}
+
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+}
+
+.button-interactive svg,
+.icon-button svg {
+  transition: transform 0.3s ease-in-out;
+}
+
+.button-interactive:hover svg {
+  transform: scale(1.08);
+}
+
+.icon-button {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.icon-button:hover svg {
+  transform: scale(1.06) rotate(4deg);
+}
+
+.review-marquee {
+  @apply overflow-hidden rounded-3xl bg-transparent;
+}
+
+.review-marquee-scroll {
+  @apply relative rounded-3xl cursor-grab active:cursor-grabbing;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.review-marquee-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.review-marquee-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  padding: 0.25rem 0.5rem;
+  animation: review-marquee var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.review-marquee:hover .review-marquee-track {
+  animation-play-state: paused;
+}
+
+.review-card {
+  @apply w-[280px] shrink-0 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 ease-in-out;
+}
+
+.review-card:hover {
+  @apply shadow-card;
+  transform: scale(1.03);
+}
+
+.review-marquee-fade-left,
+.review-marquee-fade-right {
+  @apply pointer-events-none absolute inset-y-0 w-12 sm:w-16;
+}
+
+.review-marquee-fade-left {
+  @apply left-0 bg-gradient-to-r from-background via-background/80 to-transparent;
+}
+
+.review-marquee-fade-right {
+  @apply right-0 bg-gradient-to-l from-background via-background/80 to-transparent;
+}
+
+@keyframes review-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.review-sweep {
+  position: absolute;
+  top: 1.05rem;
+  left: -60%;
+  height: 2px;
+  width: 60%;
+  background: linear-gradient(90deg, transparent, rgba(244, 185, 66, 0.8), transparent);
+  animation: review-sweep 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes review-sweep {
+  0% {
+    transform: translateX(0);
+    opacity: 0.4;
+  }
+  45% {
+    transform: translateX(160%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(160%);
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-sweep {
+    animation: none;
+  }
+}
