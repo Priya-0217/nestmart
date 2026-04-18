@@ -13,6 +13,7 @@ import { NavLink } from '@/components/layout/nav-link';
 import { MobileDrawer } from '@/components/layout/mobile-drawer';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { ProductImage } from '@/components/ui/product-image';
 
 const mainLinks = [
   { href: '/', label: 'Home' },
@@ -84,7 +85,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-card/90 backdrop-blur">
+    <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur">
       <Container className="flex h-16 items-center gap-3">
         <Link href="/" className="min-w-fit">
           <span className="flex items-center gap-2">
@@ -137,7 +138,7 @@ export function SiteHeader() {
                           setQuery('');
                         }}
                       >
-                        <Image src={product.images[0]} alt={product.name} width={32} height={32} className="h-8 w-8 rounded-md object-cover" />
+                        <ProductImage src={product.images[0]} alt={product.name} width={32} height={32} className="h-8 w-8 rounded-md object-cover" />
                         <div className="min-w-0 flex-1">
                           <p className="truncate font-medium text-foreground">{product.name}</p>
                           <Badge tone="muted" className="mt-1">
@@ -175,9 +176,15 @@ export function SiteHeader() {
               ) : null}
             </Link>
           </motion.div>
-          <button className="icon-button focus-ring inline-flex rounded-full p-2 hover:bg-muted md:hidden" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-            <Menu className="h-5 w-5" />
-          </button>
+          {!menuOpen && (
+            <button
+              className="icon-button focus-ring relative z-[131] inline-flex rounded-full p-2 hover:bg-muted md:hidden"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          )}
         </div>
       </Container>
       <MobileDrawer open={menuOpen} onClose={() => setMenuOpen(false)} links={mainLinks} />

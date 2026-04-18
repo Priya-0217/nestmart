@@ -3,8 +3,8 @@
 import { Product } from '@/data/products';
 import { formatPrice } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { Star } from 'lucide-react';
+import { ProductImage } from '@/components/ui/product-image';
 
 type ProductCardProps = {
   product: Product;
@@ -18,7 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
       className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
     >
       <div className="relative h-48 w-full overflow-hidden">
-        <Image src={product.image} alt={product.title} fill className="object-cover" />
+        <ProductImage src={product.image} alt={product.title} fill className="object-cover" />
       </div>
       <div className="space-y-3 p-4">
         <span className="inline-flex rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-amber-700">{product.tag}</span>

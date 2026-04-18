@@ -1,10 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2 } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import { QuantityStepper } from '@/components/ui/quantity-stepper';
+import { ProductImage } from '@/components/ui/product-image';
 
 type CartLineItemProps = {
   productSlug: string;
@@ -22,7 +22,7 @@ export function CartLineItem({ productSlug, productName, image, variantName, qua
     <article className="surface flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-3">
         <Link href={`/products/${productSlug}`} className="relative h-20 w-20 overflow-hidden rounded-xl">
-          <Image src={image} alt={productName} fill className="object-cover" sizes="80px" />
+          <ProductImage src={image} alt={productName} fill className="object-cover" sizes="80px" />
         </Link>
         <div>
           <Link href={`/products/${productSlug}`} className="text-sm font-semibold text-foreground hover:text-primary">

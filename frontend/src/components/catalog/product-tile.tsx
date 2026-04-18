@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -17,6 +16,7 @@ import { useWishlistStore } from '@/store/wishlist-store';
 import { useToastStore } from '@/store/toast-store';
 import { trackProductView } from '@/lib/personalization';
 import { TRANSITION_FAST, TRANSITION_STANDARD } from '@/lib/motion';
+import { ProductImage } from '@/components/ui/product-image';
 
 type ProductTileProps = {
   product: Product;
@@ -46,7 +46,7 @@ export function ProductTile({ product }: ProductTileProps) {
         <Link href={`/products/${product.slug}`} className="block" onClick={() => trackProductView(product.id, product.category)}>
           <div className="relative aspect-[4/3] overflow-hidden bg-muted/30">
             {!imageLoaded ? <div className="absolute inset-0 animate-pulse bg-muted" /> : null}
-            <Image
+            <ProductImage
               src={product.images[0]}
               alt={product.name}
               fill
@@ -54,7 +54,7 @@ export function ProductTile({ product }: ProductTileProps) {
               className="object-cover transition-all duration-500 ease-in-out group-hover:scale-[1.06] group-hover:opacity-0"
               onLoadingComplete={() => setImageLoaded(true)}
             />
-            <Image
+            <ProductImage
               src={secondaryImage}
               alt={`${product.name} alternate`}
               fill
