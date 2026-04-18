@@ -18,19 +18,28 @@ function getInitials(name: string) {
 }
 
 export function ReviewMarquee({ testimonials, className }: ReviewMarqueeProps) {
-  const trackItems = [...testimonials, ...testimonials];
+  // Repeat the items several times to ensure the track is always wider than the viewport 
+  // and the animation from 0 to -16.66% is seamless on all screen sizes.
+  const trackItems = [
+    ...testimonials,
+    ...testimonials,
+    ...testimonials,
+    ...testimonials,
+    ...testimonials,
+    ...testimonials
+  ];
 
   if (testimonials.length === 0) {
     return null;
   }
 
   const marqueeStyle = {
-    '--marquee-duration': '46s'
+    '--marquee-duration': '50s'
   } as CSSProperties;
 
   return (
     <div className={cn('review-marquee relative', className)} style={marqueeStyle}>
-      <div className="review-marquee-scroll flex w-full overflow-x-auto px-4 sm:px-6 scroll-pl-4 sm:scroll-pl-6">
+      <div className="review-marquee-scroll flex w-full overflow-hidden px-4 sm:px-6">
         <div className="review-marquee-track">
           {trackItems.map((testimonial, index) => (
             <article key={`${testimonial.id}-${index}`} className="review-card">
