@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumb } from '@/components/catalog/breadcrumb';
-import { ProductGallery } from '@/components/product/product-gallery';
-import { ProductInfo } from '@/components/product/product-info';
-import { RelatedProducts } from '@/components/product/related-products';
-import { SpecsTable } from '@/components/product/specs-table';
+import { Breadcrumb } from '@/features/catalog/components/breadcrumb';
+import { ProductGallery } from '@/features/product/components/product-gallery';
+import { ProductInfo } from '@/features/product/components/product-info';
+import { RelatedProducts } from '@/features/product/components/related-products';
+import { SpecsTable } from '@/features/product/components/specs-table';
 import { getProductById, getProductBySlug, getRelatedProducts, products } from '@/data/catalog';
 
 type ProductDetailPageProps = {

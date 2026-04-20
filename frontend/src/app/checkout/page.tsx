@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { CheckoutPageContent } from '@/components/checkout/checkout-page-content';
+import { CheckoutPageContent } from '@/features/checkout/components/checkout-page-content';
 
 export const metadata: Metadata = {
   title: 'Checkout',

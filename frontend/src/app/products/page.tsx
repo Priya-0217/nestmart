@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { products } from '@/data/catalog';
-import { ProductsPageContent } from '@/components/catalog/products-page-content';
+import { ProductsPageContent } from '@/features/catalog/components/products-page-content';
 
 export const metadata: Metadata = {
   title: 'Products',

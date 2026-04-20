@@ -6,29 +6,35 @@ interface LogoProps {
 
 export function Logo({ className }: LogoProps) {
   return (
-    <div className={cn('flex items-center gap-2', className)}>
-      <svg
-        viewBox="0 0 60 60"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-9 w-9"
-      >
-        {/* Icon mark: shopping basket with a roof/nest motif */}
-        <g transform="translate(0,0)">
-          {/* Basket */}
-          <rect x="10" y="25" width="40" height="30" rx="6" fill="#1A56DB" />
+    <svg
+      width="200"
+      height="200"
+      viewBox="0 0 200 200"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="NestMart logo"
+      className={cn('h-9 w-9', className)}
+    >
+      <defs>
+        <linearGradient id="goldGradient" x1="10" y1="10" x2="190" y2="190" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#D4AF37" />
+          <stop offset="0.5" stopColor="#FFD700" />
+          <stop offset="1" stopColor="#D4AF37" />
+        </linearGradient>
+      </defs>
 
-          {/* Basket lines */}
-          <line x1="20" y1="25" x2="20" y2="55" stroke="white" stroke-width="2" />
-          <line x1="30" y1="25" x2="30" y2="55" stroke="white" stroke-width="2" />
-          <line x1="40" y1="25" x2="40" y2="55" stroke="white" stroke-width="2" />
+      <circle cx="100" cy="100" r="90" fill="url(#goldGradient)" />
+      <path d="M100 30 L160 80 V170 H40 V80 L100 30 Z" fill="#2C3E50" />
+      <circle cx="100" cy="100" r="20" fill="#2C3E50" />
+      <rect x="95" y="110" width="10" height="40" fill="#2C3E50" />
 
-          {/* Roof motif */}
-          <polygon points="5,25 30,5 55,25" fill="#F59E0B" />
-        </g>
-      </svg>
-      <span className="font-display text-xl font-bold tracking-tight text-foreground">
-        Nest<span className="text-primary">Mart</span>
-      </span>
-    </div>
+      <rect x="55" y="130" width="30" height="20" fill="#FFFFFF" opacity="0.8" />
+      <rect x="55" y="125" width="30" height="5" fill="#FFFFFF" opacity="0.8" />
+
+      <rect x="115" y="130" width="30" height="5" fill="#FFFFFF" opacity="0.8" />
+      <rect x="120" y="135" width="5" height="15" fill="#FFFFFF" opacity="0.8" />
+      <rect x="135" y="135" width="5" height="15" fill="#FFFFFF" opacity="0.8" />
+    </svg>
   );
 }

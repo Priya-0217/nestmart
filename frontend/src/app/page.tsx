@@ -1,17 +1,17 @@
 import { Metadata } from 'next';
 import { categories, heroSlides, homeCollections, homeFeatures, products, testimonials } from '@/data/catalog';
-import { CategoryGrid } from '@/components/home/category-grid';
-import { CollectionStrip } from '@/components/home/collection-strip';
-import { FeatureGrid } from '@/components/home/feature-grid';
-import { SkiperHero } from '@/components/home/skiper-hero';
-import { NewsletterCta } from '@/components/home/newsletter-cta';
-import { PromoStrip } from '@/components/home/promo-strip';
-import { PersonalizedShelves } from '@/components/home/personalized-shelves';
-import { ReviewMarquee } from '@/components/home/review-marquee';
-import { SkiperMarquee } from '@/components/home/skiper-marquee';
+import { CategoryGrid } from '@/features/home/components/category-grid';
+import { CollectionStrip } from '@/features/home/components/collection-strip';
+import { FeatureGrid } from '@/features/home/components/feature-grid';
+import { SkiperHero } from '@/features/home/components/skiper-hero';
+import { NewsletterCta } from '@/features/home/components/newsletter-cta';
+import { PromoStrip } from '@/features/home/components/promo-strip';
+import { PersonalizedShelves } from '@/features/home/components/personalized-shelves';
+import { ReviewMarquee } from '@/features/home/components/review-marquee';
+import { SkiperMarquee } from '@/features/home/components/skiper-marquee';
 import { ScrollReveal } from '@/components/motion/scroll-reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
-import { PromoVideoText } from '@/components/home/promo-video-text';
+import { PromoVideoText } from '@/features/home/components/promo-video-text';
 
 export const metadata: Metadata = {
   title: 'Home',

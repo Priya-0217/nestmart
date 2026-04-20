@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     template: '%s | NestMart'
   },
   description: 'NestMart storefront built with Next.js 14, featuring curated products, responsive commerce flows, and a complete account/checkout experience.',
+  icons: {
+    icon: '/favicon.svg'
+  },
   openGraph: {
     title: 'NestMart | Curated Home Essentials',
     description: 'Discover design-led furniture and decor with a smooth ecommerce flow.',

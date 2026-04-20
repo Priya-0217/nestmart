@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 import { PackageCheck, ReceiptText, Star } from 'lucide-react';
-import { AccountSidebar } from '@/components/account/account-sidebar';
-import { OrdersTable } from '@/components/account/orders-table';
-import { ProfileCard } from '@/components/account/profile-card';
-import { StatCard } from '@/components/account/stat-card';
-import { WishlistPanel } from '@/components/account/wishlist-panel';
-import { WishlistStatCard } from '@/components/account/wishlist-stat-card';
+import { AccountSidebar } from '@/features/account/components/account-sidebar';
+import { OrdersTable } from '@/features/account/components/orders-table';
+import { ProfileCard } from '@/features/account/components/profile-card';
+import { StatCard } from '@/features/account/components/stat-card';
+import { WishlistPanel } from '@/features/account/components/wishlist-panel';
+import { WishlistStatCard } from '@/features/account/components/wishlist-stat-card';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { orders, products, profile } from '@/data/catalog';
 
