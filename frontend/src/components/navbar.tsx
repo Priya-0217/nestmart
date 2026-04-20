@@ -3,13 +3,15 @@
 import Link from 'next/link';
 import { ShoppingCart, UserRound, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Logo } from './logo';
 
 export function Navbar() {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200/60 bg-white/85 backdrop-blur-lg">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-2xl font-extrabold tracking-tight text-trust">
-          NestMart
+        <Link href="/" className="flex items-center gap-2">
+          <Logo />
+          <span className="text-2xl font-extrabold tracking-tight text-trust">NestMart</span>
         </Link>
         <div className="hidden items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 md:flex">
           <Search size={16} className="text-slate-400" />

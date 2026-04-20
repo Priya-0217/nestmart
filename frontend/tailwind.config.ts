@@ -13,20 +13,20 @@ const config: Config = {
     },
     extend: {
       colors: {
-        background: '#f6f4ee',
-        foreground: '#1f2725',
-        primary: '#0f7a5f',
-        secondary: '#f4b942',
-        muted: '#eaede5',
+        background: '#F8FAFC',
+        foreground: '#111827',
+        primary: '#1A56DB',
+        secondary: '#F59E0B',
+        muted: '#E5E7EB',
         card: '#ffffff',
-        border: '#d8ddd2',
-        trust: '#0f7a5f',
-        accent: '#f4b942',
-        bgSoft: '#f6f4ee'
+        border: '#E2E8F0',
+        trust: '#1A56DB',
+        accent: '#F59E0B',
+        bgSoft: '#F8FAFC'
       },
       fontFamily: {
-        display: ['var(--font-display)', 'sans-serif'],
-        body: ['var(--font-body)', 'sans-serif']
+        display: ['var(--font-display)', 'Plus Jakarta Sans', 'sans-serif'],
+        body: ['var(--font-body)', 'Inter', 'sans-serif']
       },
       boxShadow: {
         glow: '0 18px 35px -18px rgba(15, 122, 95, 0.45)',

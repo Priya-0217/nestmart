@@ -39,11 +39,11 @@ button {
 }
 
 .gradient-text {
-  @apply bg-gradient-to-r from-primary via-emerald-600 to-teal-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-primary via-blue-600 to-amber-500 bg-clip-text text-transparent;
 }
 
 .surface {
-  @apply rounded-2xl border border-border bg-card shadow-card;
+  @apply rounded-2xl border border-border bg-card shadow-sm;
 }
 
 .focus-ring {
@@ -117,12 +117,64 @@ button {
   @apply right-0 bg-gradient-to-l from-background via-background/80 to-transparent;
 }
 
+.skiper-marquee {
+  @apply overflow-hidden rounded-3xl border border-border bg-card;
+}
+
+.skiper-marquee-scroll {
+  @apply relative overflow-hidden;
+}
+
+.skiper-marquee-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  padding: 0.75rem;
+  animation: skiper-marquee var(--skiper-marquee-duration, 38s) linear infinite;
+  will-change: transform;
+}
+
+.skiper-marquee-card {
+  @apply flex items-center gap-3 rounded-2xl border border-border bg-white/90 px-3 py-2.5 shadow-sm transition-all duration-300 ease-in-out;
+}
+
+.skiper-marquee-card:hover {
+  @apply shadow-card;
+  transform: translateY(-2px);
+}
+
+.skiper-marquee-pill {
+  @apply ml-auto rounded-full bg-primary/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-primary;
+}
+
+.skiper-marquee-fade-left,
+.skiper-marquee-fade-right {
+  @apply pointer-events-none absolute inset-y-0 w-12 sm:w-16;
+}
+
+.skiper-marquee-fade-left {
+  @apply left-0 bg-gradient-to-r from-background via-background/80 to-transparent;
+}
+
+.skiper-marquee-fade-right {
+  @apply right-0 bg-gradient-to-l from-background via-background/80 to-transparent;
+}
+
 @keyframes review-marquee {
   0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-16.666%);
+  }
+}
+
+@keyframes skiper-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
   }
 }
 
@@ -156,4 +208,12 @@ button {
   .review-sweep {
     animation: none;
   }
+
+  .skiper-marquee-track {
+    animation: none;
+  }
+}
+
+.skiper-marquee[data-reduce='true'] .skiper-marquee-track {
+  animation: none;
 }

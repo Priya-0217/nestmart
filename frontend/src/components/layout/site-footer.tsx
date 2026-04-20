@@ -3,6 +3,7 @@ import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { Container } from '@/components/layout/container';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/logo';
 
 const socialLinks = [
   { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
@@ -18,6 +19,9 @@ export function SiteFooter() {
       <Container className="space-y-8 py-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
+            <Link href="/" className="mb-4 inline-flex items-center">
+              <Logo className="h-8" />
+            </Link>
             <h3 className="font-display text-2xl font-semibold">Design-led essentials for modern homes.</h3>
             <p className="mt-2 text-sm text-foreground/65">
               NestMart curates furniture, decor, and everyday pieces that balance utility, warmth, and long-term quality.

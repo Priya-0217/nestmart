@@ -1,12 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/ui/logo';
 
 type MobileDrawerProps = {
   open: boolean;
@@ -80,12 +80,7 @@ export function MobileDrawer({ open, onClose, links }: MobileDrawerProps) {
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
               <Link href="/" className="min-w-fit" onClick={onClose}>
-                <span className="flex items-center gap-2">
-                  <Image src="/nestmart-logo.png" alt="NestMart logo" width={36} height={36} className="h-9 w-9" priority />
-                  <span className="font-display text-2xl font-bold text-foreground">
-                    Nest<span className="text-primary">Mart</span>
-                  </span>
-                </span>
+                <Logo className="h-9" />
               </Link>
               <button className="icon-button focus-ring rounded-full p-1.5 hover:bg-muted" onClick={onClose} aria-label="Close menu">
                 <X className="h-5 w-5" />

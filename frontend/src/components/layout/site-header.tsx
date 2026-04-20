@@ -14,6 +14,7 @@ import { MobileDrawer } from '@/components/layout/mobile-drawer';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ProductImage } from '@/components/ui/product-image';
+import { Logo } from '@/components/ui/logo';
 
 const mainLinks = [
   { href: '/', label: 'Home' },
@@ -88,12 +89,7 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur">
       <Container className="flex h-16 items-center gap-3">
         <Link href="/" className="min-w-fit">
-          <span className="flex items-center gap-2">
-            <Image src="/nestmart-logo.png" alt="NestMart logo" width={36} height={36} className="h-9 w-9" priority />
-            <span className="font-display text-xl font-bold text-foreground">
-              Nest<span className="text-primary">Mart</span>
-            </span>
-          </span>
+          <Logo className="h-9" />
         </Link>
 
         <div ref={searchRef} className="relative hidden flex-1 md:block">
