@@ -80,7 +80,7 @@ export function MobileDrawer({ open, onClose, links }: MobileDrawerProps) {
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
               <Link href="/" className="min-w-fit" onClick={onClose}>
-                <Logo className="h-9" />
+                <Logo className="h-16 w-16" />
               </Link>
               <button className="icon-button focus-ring rounded-full p-1.5 hover:bg-muted" onClick={onClose} aria-label="Close menu">
                 <X className="h-5 w-5" />

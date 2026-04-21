@@ -187,22 +187,20 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
           ))}
         </div>
 
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4">
-          <button
-            onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
-            aria-label="Previous slide"
-            className="icon-button focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-foreground hover:bg-white"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
-            aria-label="Next slide"
-            className="icon-button focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-foreground hover:bg-white"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
+        <button
+          onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
+          aria-label="Previous slide"
+          className="icon-button focus-ring absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-foreground hover:bg-white"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <button
+          onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
+          aria-label="Next slide"
+          className="icon-button focus-ring absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-foreground hover:bg-white"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
       </div>
     </section>
   );

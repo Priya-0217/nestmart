@@ -20,7 +20,7 @@ export function SiteFooter() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Link href="/" className="mb-4 inline-flex items-center">
-              <Logo className="h-8" />
+              <Logo className="h-16 w-16 min-h-[64px] min-w-[64px] md:h-20 md:w-20" />
             </Link>
             <h3 className="font-display text-2xl font-semibold">Design-led essentials for modern homes.</h3>
             <p className="mt-2 text-sm text-foreground/65">

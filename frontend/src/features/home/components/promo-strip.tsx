@@ -29,21 +29,21 @@ export function PromoStrip() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={TRANSITION_STANDARD}
-      className="rounded-3xl bg-primary px-5 py-6 text-white sm:px-8"
+      className="rounded-2xl bg-primary/90 px-3 py-3 text-white sm:px-8 w-full max-w-none mx-0"
     >
-      <div className="flex flex-col items-center justify-center gap-6">
-        <div className="text-center md:text-left w-full md:w-auto">
+      <div className="flex flex-col items-center justify-center gap-3 sm:gap-5">
+        <div className="text-center w-full">
           <p className="text-xs uppercase tracking-[0.2em] text-secondary">Flash Event</p>
-          <h2 className="mt-1 text-2xl font-semibold md:text-3xl">Save 25% on curated bundles.</h2>
+          <h2 className="mt-1 text-xl font-semibold md:text-3xl">Save 25% on curated bundles.</h2>
         </div>
-        <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
+        <div className="grid grid-cols-4 gap-1 text-center w-full max-w-xs mx-auto">
           <TimerChip label="Days" value={days} />
           <TimerChip label="Hours" value={hours} />
           <TimerChip label="Mins" value={mins} />
           <TimerChip label="Secs" value={seconds} />
         </div>
         <Link href="/products">
-          <Button variant="secondary">Shop Deals</Button>
+          <Button variant="secondary" className="py-1 px-4 text-sm">Shop Deals</Button>
         </Link>
       </div>
     </motion.section>
@@ -52,11 +52,11 @@ export function PromoStrip() {
 
 function TimerChip({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl bg-white/15 px-3 py-2">
+    <div className="rounded-lg bg-white/10 px-2 py-1 sm:px-3 sm:py-2 flex flex-col items-center">
       <AnimatePresence mode="popLayout">
         <motion.p
           key={value}
-          className="text-xl font-semibold"
+          className="text-base font-semibold sm:text-xl"
           initial={{ opacity: 0, y: 8, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8, scale: 0.96 }}
@@ -65,7 +65,7 @@ function TimerChip({ label, value }: { label: string; value: number }) {
           {String(value).padStart(2, '0')}
         </motion.p>
       </AnimatePresence>
-      <p className="text-[10px] uppercase tracking-[0.18em] text-white/85">{label}</p>
+      <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-white/85">{label}</p>
     </div>
   );
 }
