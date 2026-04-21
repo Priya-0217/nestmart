@@ -16,16 +16,21 @@ const socialLinks = [
 export function SiteFooter() {
   return (
     <footer className="mt-14 border-t border-border bg-card">
-      <Container className="space-y-8 py-10">
+      {/* Reduce top padding and remove excessive space */}
+      <Container className="space-y-8 pt-8 pb-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="mb-4 inline-flex items-center">
-              <Logo className="h-16 w-16 min-h-[64px] min-w-[64px] md:h-20 md:w-20" />
-            </Link>
-            <h3 className="font-display text-2xl font-semibold">Design-led essentials for modern homes.</h3>
-            <p className="mt-2 text-sm text-foreground/65">
-              NestMart curates furniture, decor, and everyday pieces that balance utility, warmth, and long-term quality.
-            </p>
+            {/* Align logo and text content horizontally */}
+            <div className="flex flex-col items-start">
+              <Link href="/" className="mb-4 inline-flex items-center pl-0">
+                {/* Larger logo for both mobile and desktop, and align left */}
+                <Logo className="h-20 w-20 min-h-[80px] min-w-[80px] md:h-24 md:w-24" />
+              </Link>
+              <h3 className="font-display text-2xl font-semibold pl-0">Design-led essentials for modern homes.</h3>
+              <p className="mt-2 text-sm text-foreground/65 pl-0">
+                NestMart curates furniture, decor, and everyday pieces that balance utility, warmth, and long-term quality.
+              </p>
+            </div>
             <div className="mt-4 flex gap-2">
               {socialLinks.map(({ label, href, icon: Icon }) => (
                 <a

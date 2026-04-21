@@ -87,9 +87,10 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur">
-      <Container className="flex h-16 items-center gap-4 md:gap-6 pl-3 sm:pl-4">
+      <Container className="flex h-20 items-center gap-4 md:gap-6 pl-3 sm:pl-4">
         <Link href="/" className="inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-85 active:opacity-75 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-secondary rounded-full" aria-label="NestMart Home">
-          <Logo className="h-16 w-16 min-h-[64px] min-w-[64px] md:h-20 md:w-20" />
+          {/* Larger logo for navbar, responsive */}
+          <Logo className="h-20 w-20 min-h-[80px] min-w-[80px] md:h-24 md:w-24" />
         </Link>
 
         <div ref={searchRef} className="relative hidden flex-1 md:block">

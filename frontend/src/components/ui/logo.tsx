@@ -9,7 +9,8 @@ export function Logo({ className }: LogoProps) {
     <img
       src="/logo.png"
       alt="NestMart Logo - Lamp Medallion"
-      className={cn('h-20 w-20 flex-shrink-0 object-contain drop-shadow-sm', className)}
+      className={cn('object-contain drop-shadow-sm', className)}
+      style={{ maxWidth: '100%', height: 'auto' }}
     />
   );
 }
