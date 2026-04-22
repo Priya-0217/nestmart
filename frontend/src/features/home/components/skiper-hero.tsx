@@ -166,6 +166,22 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 ) : null}
               </motion.div>
             </AnimatePresence>
+
+            <button
+              onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
+              aria-label="Previous slide"
+              className="icon-button focus-ring absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
+            <button
+              onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
+              aria-label="Next slide"
+              className="icon-button focus-ring absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
 
@@ -189,22 +205,6 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
             </button>
           ))}
         </div>
-
-        <button
-          onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
-          aria-label="Previous slide"
-          className="icon-button focus-ring absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </button>
-
-        <button
-          onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
-          aria-label="Next slide"
-          className="icon-button focus-ring absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </button>
       </div>
     </section>
   );
