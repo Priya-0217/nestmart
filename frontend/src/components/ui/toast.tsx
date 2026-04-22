@@ -7,8 +7,8 @@ import { useToastStore } from '@/store/toast-store';
 type TimerMap = Record<string, number>;
 
 const toneStyles: Record<'success' | 'info', string> = {
-  success: 'border-emerald-200 bg-emerald-50 text-emerald-900',
-  info: 'border-slate-200 bg-white text-foreground'
+  success: 'border-primary/30 bg-primary/10 text-primary',
+  info: 'border-border bg-card text-foreground'
 };
 
 export function ToastViewport() {

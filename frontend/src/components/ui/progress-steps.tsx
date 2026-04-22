@@ -22,7 +22,7 @@ export function ProgressSteps({ steps, currentStep }: ProgressStepsProps) {
                 'inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold',
                 status === 'done' && 'bg-primary text-white',
                 status === 'active' && 'border-2 border-primary bg-primary/10 text-primary',
-                status === 'idle' && 'border border-border bg-white text-foreground/55'
+                status === 'idle' && 'border border-border bg-card text-foreground/55'
               )}
             >
               {index + 1}

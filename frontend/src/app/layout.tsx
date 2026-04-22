@@ -46,8 +46,16 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" style={{ backgroundColor: '#F8FAFC' }}>
-      <body className={`${display.variable} ${body.variable}`} style={{ backgroundColor: '#F8FAFC' }}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Anti-flash: apply saved theme before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{const t=localStorage.getItem('nestmart-theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='dark'||(t===null&&d))document.documentElement.classList.add('dark')}catch(e){}`
+          }}
+        />
+      </head>
+      <body className={`${display.variable} ${body.variable}`}>
         <AppShell>{children}</AppShell>
       </body>
     </html>

@@ -20,20 +20,21 @@ export function NewsletterCta() {
   }
 
   return (
-    <section className="rounded-3xl bg-mesh p-6 sm:p-8">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <section className="relative overflow-hidden rounded-3xl bg-primary p-8 sm:p-10">
+      <div aria-hidden="true" className="pointer-events-none absolute -top-12 -right-12 h-56 w-56 rounded-full bg-primary/25 blur-3xl" />
+      <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Stay Updated</p>
-          <h2 className="mt-1 text-2xl font-semibold text-foreground sm:text-3xl">Sign up for weekly style drops and exclusive offers.</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Stay Updated</p>
+          <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">Sign up for weekly style drops and exclusive offers.</h2>
         </div>
         <form onSubmit={onSubmit} className="w-full max-w-xl space-y-2">
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required placeholder="you@example.com" className="rounded-full bg-white/90" />
+            <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required placeholder="you@example.com" className="rounded-full !bg-black/20 !border-black/30 text-white placeholder:text-white/60" />
             <Button size="lg" className="sm:w-auto">
               Subscribe
             </Button>
           </div>
-          <p className="text-xs text-foreground/65">{submitted ? 'Thanks! You are in.' : 'No spam, unsubscribe anytime.'}</p>
+          <p className="text-xs text-white/60">{submitted ? 'Thanks! You are in.' : 'No spam, unsubscribe anytime.'}</p>
         </form>
       </div>
     </section>

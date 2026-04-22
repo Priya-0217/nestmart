@@ -1,4 +1,8 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import { RefreshCw, ShieldCheck, Sparkles, Truck } from 'lucide-react';
+import { TRANSITION_STANDARD } from '@/lib/motion';
 import { HomeFeature } from '@/lib/types';
 
 const iconMap = {
@@ -8,19 +12,35 @@ const iconMap = {
   refresh: RefreshCw
 };
 
+const iconColors = [
+  { container: 'bg-primary/10',  icon: 'text-primary'   },
+  { container: 'bg-secondary/15', icon: 'text-secondary' },
+  { container: 'bg-primary/15',  icon: 'text-primary'   },
+  { container: 'bg-secondary/10', icon: 'text-secondary' }
+];
+
 export function FeatureGrid({ features }: { features: HomeFeature[] }) {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {features.map((feature) => {
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      {features.map((feature, index) => {
         const Icon = iconMap[feature.icon];
+        const colors = iconColors[index % iconColors.length];
         return (
-          <article key={feature.id} className="surface p-4">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/12 text-primary">
-              <Icon className="h-4 w-4" />
+          <motion.article
+            key={feature.id}
+            className="surface p-6"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ ...TRANSITION_STANDARD, delay: index * 0.07 }}
+            whileHover={{ y: -4 }}
+          >
+            <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${colors.container} ${colors.icon}`}>
+              <Icon className="h-5 w-5" />
             </span>
-            <h3 className="mt-3 text-base font-semibold">{feature.title}</h3>
-            <p className="mt-1 text-sm text-foreground/65">{feature.description}</p>
-          </article>
+            <h3 className="mt-4 text-lg font-semibold">{feature.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/65">{feature.description}</p>
+          </motion.article>
         );
       })}
     </div>

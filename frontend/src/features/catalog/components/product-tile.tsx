@@ -64,7 +64,7 @@ export function ProductTile({ product }: ProductTileProps) {
             <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-1 bg-black/25 opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100">
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
                 onClick={(event) => {
                   event.preventDefault();
                   handleAdd();
@@ -75,18 +75,18 @@ export function ProductTile({ product }: ProductTileProps) {
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleWishlist(product.id);
                 }}
               >
-                <Heart className={`h-3.5 w-3.5 transition duration-300 group-hover:scale-110 group-hover:-rotate-6 ${isWishlisted ? 'fill-current text-rose-500' : ''}`} />
+                <Heart className={`h-3.5 w-3.5 transition duration-300 group-hover:scale-110 group-hover:-rotate-6 ${isWishlisted ? 'fill-current text-secondary' : ''}`} />
                 {isWishlisted ? 'Wishlisted' : 'Wishlist'}
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
                 onClick={(event) => {
                   event.preventDefault();
                   trackProductView(product.id, product.category);

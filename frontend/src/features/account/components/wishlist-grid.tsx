@@ -9,7 +9,7 @@ export function WishlistGrid({ products }: { products: Product[] }) {
       <h2 className="text-lg font-semibold">Wishlist</h2>
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {products.map((product) => (
-          <article key={product.id} className="rounded-xl border border-border bg-white p-3">
+          <article key={product.id} className="rounded-xl border border-border bg-card p-3">
             <Link href={`/products/${product.slug}`} className="relative block aspect-[4/3] overflow-hidden rounded-lg">
               <ProductImage src={product.images[0]} alt={product.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 20vw" />
             </Link>

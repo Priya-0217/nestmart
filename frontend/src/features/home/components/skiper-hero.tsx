@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion, type Transition } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -105,7 +105,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 </motion.p>
                 <motion.h1
                   variants={textItem}
-                  className="mt-3 text-3xl font-semibold leading-tight text-foreground md:text-5xl"
+                  className="mt-3 text-3xl font-bold leading-tight text-foreground md:text-5xl"
                 >
                   {activeSlide.title}
                 </motion.h1>
@@ -117,7 +117,10 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 </motion.p>
                 <motion.div variants={textItem} className="mt-5">
                   <Link href={activeSlide.ctaHref}>
-                    <Button size="lg">{activeSlide.ctaLabel}</Button>
+                    <Button size="lg" className="gap-2">
+                      {activeSlide.ctaLabel}
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
                   </Link>
                 </motion.div>
               </motion.div>
@@ -151,7 +154,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 720px"
                     />
                   </motion.div>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-black/18 via-transparent to-black/6 dark:from-white/10 dark:via-transparent dark:to-white/18" />
                 </motion.div>
                 {!reduceMotion ? (
                   <motion.div
@@ -172,7 +175,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
             <button
               key={slide.id}
               aria-label={`Go to slide ${index + 1}`}
-              className="relative h-2 w-10 overflow-hidden rounded-full bg-foreground/15"
+              className="focus-ring relative h-2 w-10 overflow-hidden rounded-full bg-foreground/15"
               onClick={() => setActiveIndex(index)}
             >
               {activeIndex === index ? (
@@ -191,14 +194,14 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
         <button
           onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
           aria-label="Previous slide"
-          className="icon-button focus-ring absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-foreground hover:bg-white"
+          className="icon-button focus-ring absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
         <button
           onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
           aria-label="Next slide"
-          className="icon-button focus-ring absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-foreground hover:bg-white"
+          className="icon-button focus-ring absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

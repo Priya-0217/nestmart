@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ProductImage } from '@/components/ui/product-image';
 import { Logo } from '@/components/ui/logo';
+import { ThemeToggle } from '@/components/ui/skiper-ui/skiper4';
 
 const mainLinks = [
   { href: '/', label: 'Home' },
@@ -86,9 +87,9 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur">
-      <Container className="flex h-14 items-center gap-3 sm:h-16 md:h-20 md:gap-6">
+      <Container className="flex h-20 items-center gap-3 md:h-24 md:gap-6">
         <Link href="/" className="inline-flex shrink-0 items-center justify-center transition-opacity duration-200 hover:opacity-85 active:opacity-75 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-secondary rounded-full" aria-label="NestMart Home">
-          <Logo className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16" />
+          <Logo className="h-20 w-20 md:h-24 md:w-24" />
         </Link>
 
         <div ref={searchRef} className="relative hidden flex-1 md:block">
@@ -119,7 +120,7 @@ export function SiteHeader() {
             }}
           />
           {searchOpen && query.trim() ? (
-            <div className="absolute left-0 top-full z-40 mt-2 w-full rounded-2xl border border-border bg-white/95 p-2 shadow-lg backdrop-blur">
+            <div className="absolute left-0 top-full z-40 mt-2 w-full rounded-2xl border border-border bg-card/95 p-2 shadow-lg backdrop-blur">
               {results.length > 0 ? (
                 <ul className="max-h-72 overflow-auto">
                   {results.map((product) => (
@@ -158,11 +159,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle className="h-9 w-9 p-2 hidden md:inline-flex" />
           <Link href="/auth/login" className="icon-button focus-ring hidden rounded-full p-2 hover:bg-muted md:inline-flex" aria-label="Account">
             <UserRound className="h-5 w-5 text-foreground/80" />
           </Link>
           <motion.div whileTap={{ scale: 0.96 }}>
-            <Link href="/cart" className="icon-button focus-ring relative inline-flex rounded-full border border-border bg-white p-2 hover:bg-muted" aria-label="Cart">
+            <Link href="/cart" className="icon-button focus-ring relative inline-flex rounded-full border border-border bg-card p-2 hover:bg-muted" aria-label="Cart">
               <ShoppingBag className="h-5 w-5 text-foreground/85" />
               {mounted && cartCount > 0 ? (
                 <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[11px] font-bold text-foreground">

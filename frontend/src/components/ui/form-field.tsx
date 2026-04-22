@@ -14,10 +14,10 @@ export function FormField({ id, label, required, hint, error, children }: FormFi
     <div className="space-y-1.5">
       <label htmlFor={id} className="block text-sm font-semibold text-foreground">
         {label}
-        {required ? <span className="ml-1 text-rose-600">*</span> : null}
+        {required ? <span className="ml-1 text-secondary">*</span> : null}
       </label>
       {children}
-      {error ? <p className="text-xs text-rose-600">{error}</p> : hint ? <p className="text-xs text-foreground/55">{hint}</p> : null}
+      {error ? <p className="text-xs text-secondary">{error}</p> : hint ? <p className="text-xs text-foreground/55">{hint}</p> : null}
     </div>
   );
 }

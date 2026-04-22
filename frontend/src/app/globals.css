@@ -3,11 +3,30 @@
 @tailwind utilities;
 
 :root {
+  /* RGB channel values — used by Tailwind's rgb(var / alpha) color system */
+  --color-background: 248 250 252;
+  --color-foreground: 17 24 39;
+  --color-primary:    26 86 219;
+  --color-secondary:  245 158 11;
+  --color-muted:      229 231 235;
+  --color-card:       255 255 255;
+  --color-border:     226 232 240;
   color-scheme: light;
 }
 
+.dark {
+  --color-background: 18 18 18;
+  --color-foreground: 224 224 224;
+  --color-primary:    70 130 255;
+  --color-secondary:  255 184 77;
+  --color-muted:      26 26 26;
+  --color-card:       30 30 30;
+  --color-border:     56 56 56;
+  color-scheme: dark;
+}
+
 html {
-  background-color: #F8FAFC;
+  background-color: rgb(var(--color-background));
 }
 
 * {
@@ -43,7 +62,7 @@ button {
 }
 
 .gradient-text {
-  @apply bg-gradient-to-r from-primary via-blue-600 to-amber-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent;
 }
 
 .surface {
@@ -139,7 +158,7 @@ button {
 }
 
 .skiper-marquee-card {
-  @apply flex items-center gap-3 rounded-2xl border border-border bg-white/90 px-3 py-2.5 shadow-sm transition-all duration-300 ease-in-out;
+  @apply flex items-center gap-3 rounded-2xl border border-border bg-card/90 px-3 py-2.5 shadow-sm transition-all duration-300 ease-in-out;
 }
 
 .skiper-marquee-card:hover {

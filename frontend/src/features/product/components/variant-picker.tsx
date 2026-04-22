@@ -19,7 +19,7 @@ export function VariantPicker({ variants, activeVariantId, onChange }: VariantPi
               key={variant.id}
               className={cn(
                 'focus-ring flex items-center justify-between rounded-xl border px-3 py-2 text-left transition',
-                selected ? 'border-primary bg-primary/5' : 'border-border bg-white hover:bg-muted'
+                selected ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted'
               )}
               onClick={() => onChange(variant.id)}
             >

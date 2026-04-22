@@ -28,7 +28,7 @@ export function ActiveFilters({ filters, onChange }: ActiveFiltersProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {chips.map((chip) => (
-        <button key={chip.label} className="focus-ring inline-flex items-center gap-1 rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-foreground/80 hover:bg-muted" onClick={chip.remove}>
+        <button key={chip.label} className="focus-ring inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground/80 hover:bg-muted" onClick={chip.remove}>
           {chip.label}
           <X className="h-3.5 w-3.5" />
         </button>

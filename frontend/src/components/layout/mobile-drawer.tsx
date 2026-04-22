@@ -7,6 +7,7 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/ui/logo';
+import { ThemeToggle } from '@/components/ui/skiper-ui/skiper4';
 
 type MobileDrawerProps = {
   open: boolean;
@@ -76,15 +77,18 @@ export function MobileDrawer({ open, onClose, links }: MobileDrawerProps) {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 36, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-0 z-[110] flex h-dvh w-full flex-col gap-6 bg-white p-6 md:hidden"
+            className="fixed inset-0 z-[110] flex h-dvh w-full flex-col gap-6 bg-card p-6 md:hidden"
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
               <Link href="/" className="min-w-fit" onClick={onClose}>
-                <Logo className="h-16 w-16" />
+                <Logo className="h-20 w-20" />
               </Link>
-              <button className="icon-button focus-ring rounded-full p-1.5 hover:bg-muted" onClick={onClose} aria-label="Close menu">
-                <X className="h-5 w-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <ThemeToggle className="h-9 w-9 p-2" />
+                <button className="icon-button focus-ring rounded-full p-1.5 hover:bg-muted" onClick={onClose} aria-label="Close menu">
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
             <div className="space-y-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground">Navigation</p>

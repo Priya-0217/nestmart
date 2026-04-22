@@ -21,7 +21,7 @@ export function OrdersTable({ orders }: { orders: Order[] }) {
 
       <div className="space-y-3 p-4 sm:hidden">
         {orders.map((order) => (
-          <article key={order.id} className="rounded-xl border border-border bg-white p-3">
+          <article key={order.id} className="rounded-xl border border-border bg-card p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="text-sm font-semibold text-foreground">{order.id}</p>

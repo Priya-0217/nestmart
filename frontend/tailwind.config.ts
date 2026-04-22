@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     screens: {
@@ -13,14 +14,14 @@ const config: Config = {
     },
     extend: {
       colors: {
-        background: '#F8FAFC',
-        foreground: '#111827',
-        primary: '#1A56DB',
-        secondary: '#F59E0B',
-        muted: '#E5E7EB',
-        card: '#ffffff',
-        border: '#E2E8F0',
-        trust: '#1A56DB',
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
+        primary:    'rgb(var(--color-primary)    / <alpha-value>)',
+        secondary:  'rgb(var(--color-secondary)  / <alpha-value>)',
+        muted:      'rgb(var(--color-muted)      / <alpha-value>)',
+        card:       'rgb(var(--color-card)       / <alpha-value>)',
+        border:     'rgb(var(--color-border)     / <alpha-value>)',
+        trust:  '#1A56DB',
         accent: '#F59E0B',
         bgSoft: '#F8FAFC'
       },

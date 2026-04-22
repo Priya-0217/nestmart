@@ -19,10 +19,10 @@ const PRODUCT_IMAGES = [
 ];
 
 const COLS = [
-  { dir: 'up',   dur: 18, offset: 0    },
-  { dir: 'down', dur: 22, offset: -50  },
-  { dir: 'up',   dur: 15, offset: 0    },
-  { dir: 'down', dur: 19, offset: -50  },
+  { dir: 'up', dur: 18, offset: 0 },
+  { dir: 'down', dur: 22, offset: -50 },
+  { dir: 'up', dur: 15, offset: 0 },
+  { dir: 'down', dur: 19, offset: -50 },
 ];
 
 const HEIGHTS = [120, 150, 110, 140, 130, 160, 115, 145];
@@ -33,15 +33,23 @@ function ImageTile({ src, alt, height }: { src: string; alt: string; height: num
       <img
         src={src}
         alt={alt}
-        className="w-full h-full object-cover transition-all duration-700"
+        className="h-full w-full object-cover transition-all duration-700"
         style={{ filter: 'brightness(0.85) contrast(0.9)' }}
       />
     </div>
   );
 }
 
-function ScrollCol({ colIndex, dir, dur, offset }: {
-  colIndex: number; dir: string; dur: number; offset: number;
+function ScrollCol({
+  colIndex,
+  dir,
+  dur,
+  offset,
+}: {
+  colIndex: number;
+  dir: string;
+  dur: number;
+  offset: number;
 }) {
   const items = Array.from(
     { length: 8 },
@@ -50,9 +58,7 @@ function ScrollCol({ colIndex, dir, dur, offset }: {
   const doubled = [...items, ...items];
   const heights = Array.from({ length: doubled.length }, (_, i) => HEIGHTS[i % HEIGHTS.length]);
 
-  const keyframes = dir === 'up'
-    ? { y: ['0%', '-50%'] }
-    : { y: ['-50%', '0%'] };
+  const keyframes = dir === 'up' ? { y: ['0%', '-50%'] } : { y: ['-50%', '0%'] };
 
   return (
     <motion.div
@@ -95,15 +101,15 @@ export function PromoVideoText({
   };
 
   return (
-    <section className={cn(
-      'relative w-full overflow-hidden rounded-3xl bg-neutral-900',
-      'min-h-[320px] sm:min-h-[400px] md:min-h-[480px]',
-      'flex items-center justify-center',
-      className
-    )}>
-
-      {/* Scrolling product images – softer presence */}
-      <div className="absolute inset-0 grid grid-cols-4 gap-1 opacity-50">
+    <section
+      className={cn(
+        'relative flex w-full items-center justify-center overflow-hidden rounded-3xl bg-neutral-900',
+        'min-h-[320px] sm:min-h-[400px] md:min-h-[480px]',
+        'dark:border dark:border-white/10 dark:bg-[#0f1117] dark:shadow-[0_24px_80px_rgba(0,0,0,0.45)]',
+        className
+      )}
+    >
+      <div className="absolute inset-0 grid grid-cols-4 gap-1 opacity-50 dark:opacity-60">
         {COLS.map((col, i) => (
           <div key={i} style={{ overflow: 'hidden' }}>
             <ScrollCol colIndex={i} {...col} />
@@ -111,12 +117,35 @@ export function PromoVideoText({
         ))}
       </div>
 
-      {/* Gentle overlays – not too bold */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/30 to-black/40" />
-      <div className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)' }} />
+      <div
+        className="pointer-events-none absolute inset-x-[8%] top-[-18%] hidden h-48 rounded-full bg-[radial-gradient(circle,_rgba(245,184,91,0.24)_0%,_rgba(245,184,91,0)_72%)] blur-3xl dark:block"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute bottom-[-22%] right-[-5%] hidden h-64 w-64 rounded-full bg-[radial-gradient(circle,_rgba(124,165,212,0.22)_0%,_rgba(124,165,212,0)_72%)] blur-3xl dark:block"
+        aria-hidden="true"
+      />
 
-      {/* Text content – softer colors */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/30 to-black/40 dark:from-black/20 dark:via-black/10 dark:to-black/20" />
+      <div
+        className="absolute inset-0 dark:hidden"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)' }}
+      />
+      <div
+        className="absolute inset-0 hidden dark:block"
+        style={{
+          background:
+            'radial-gradient(circle at 50% 44%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 26%, rgba(6,8,12,0.76) 100%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 hidden dark:block"
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(245,184,91,0.14) 0%, rgba(245,184,91,0) 32%, rgba(124,165,212,0) 62%, rgba(124,165,212,0.16) 100%)',
+        }}
+      />
+
       <motion.div
         className="relative z-10 px-6 text-center sm:px-8"
         initial={reduceMotion ? 'visible' : 'hidden'}
@@ -125,35 +154,49 @@ export function PromoVideoText({
         variants={containerVariants}
       >
         <motion.div variants={textVariants}>
-          <span className="inline-block mb-5 px-4 py-1.5 rounded-full text-xs font-medium tracking-widest uppercase"
-            style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', color: '#f5b85b' }}>
-            NestMart — Home &amp; Lifestyle
+          <span
+            className="inline-block mb-5 rounded-full px-4 py-1.5 text-xs font-medium uppercase tracking-widest dark:shadow-[0_0_24px_rgba(245,184,91,0.18)]"
+            style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)', color: '#f5b85b' }}
+          >
+            NestMart - Home &amp; Lifestyle
           </span>
         </motion.div>
 
-        <motion.h2 variants={textVariants}
-          className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-          <span style={{ color: '#f0f0f0' }}>Your Home</span>
+        <motion.h2
+          variants={textVariants}
+          className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl dark:[text-shadow:0_6px_30px_rgba(0,0,0,0.4)]"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+        >
+          <span className="dark:text-white" style={{ color: '#f0f0f0' }}>
+            Your Home
+          </span>
           <span style={{ color: 'rgba(255,255,255,0.3)' }}>. </span>
-          <span style={{ color: '#e2b87a' }}>Your Style</span>
+          <span className="dark:text-[#ffd37a]" style={{ color: '#e2b87a' }}>
+            Your Style
+          </span>
           <span style={{ color: 'rgba(255,255,255,0.3)' }}>. </span>
-          <span style={{ color: '#7ca5d4' }}>Your Mart</span>
+          <span className="dark:text-[#8eb8ff]" style={{ color: '#7ca5d4' }}>
+            Your Mart
+          </span>
           <span style={{ color: 'rgba(255,255,255,0.3)' }}>.</span>
         </motion.h2>
 
         {subheadline && (
-          <motion.p variants={textVariants}
-            className="mt-4 text-base sm:text-lg md:mt-6"
-            style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <motion.p
+            variants={textVariants}
+            className="mt-4 text-base sm:text-lg md:mt-6 dark:text-white/78"
+            style={{ color: 'rgba(255,255,255,0.6)' }}
+          >
             {subheadline}
           </motion.p>
         )}
 
-        <motion.div variants={textVariants}
-          className="mx-auto mt-6 h-0.5 w-14 rounded-full"
+        <motion.div
+          variants={textVariants}
+          className="mx-auto mt-6 h-0.5 w-14 rounded-full dark:shadow-[0_0_18px_rgba(245,184,91,0.35)]"
           style={{ background: 'linear-gradient(90deg, #e2b87a, rgba(226,184,122,0.2))' }}
-          aria-hidden="true" />
+          aria-hidden="true"
+        />
       </motion.div>
     </section>
   );

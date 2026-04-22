@@ -29,22 +29,25 @@ export function PromoStrip() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={TRANSITION_STANDARD}
-      className="rounded-2xl bg-primary/90 px-3 py-3 text-white sm:px-8 w-full max-w-none mx-0"
+      className="relative overflow-hidden rounded-2xl bg-primary px-6 py-8 text-white sm:px-10 w-full max-w-none mx-0"
     >
-      <div className="flex flex-col items-center justify-center gap-3 sm:gap-5">
-        <div className="text-center w-full">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_top_left,rgba(0,0,0,0.2),transparent_60%)]" />
+      <div className="relative flex flex-col items-center gap-5 md:flex-row md:items-center md:justify-between">
+        <div className="text-center md:text-left">
           <p className="text-xs uppercase tracking-[0.2em] text-secondary">Flash Event</p>
-          <h2 className="mt-1 text-xl font-semibold md:text-3xl">Save 25% on curated bundles.</h2>
+          <h2 className="mt-1 text-2xl font-bold md:text-4xl">Save 25% on curated bundles.</h2>
         </div>
-        <div className="grid grid-cols-4 gap-1 text-center w-full max-w-xs mx-auto">
-          <TimerChip label="Days" value={days} />
-          <TimerChip label="Hours" value={hours} />
-          <TimerChip label="Mins" value={mins} />
-          <TimerChip label="Secs" value={seconds} />
+        <div className="flex flex-col items-center gap-4">
+          <div className="grid grid-cols-4 gap-2 text-center">
+            <TimerChip label="Days" value={days} />
+            <TimerChip label="Hours" value={hours} />
+            <TimerChip label="Mins" value={mins} />
+            <TimerChip label="Secs" value={seconds} />
+          </div>
+          <Link href="/products">
+            <Button variant="secondary" size="lg">Shop Deals</Button>
+          </Link>
         </div>
-        <Link href="/products">
-          <Button variant="secondary" className="py-1 px-4 text-sm">Shop Deals</Button>
-        </Link>
       </div>
     </motion.section>
   );
@@ -52,11 +55,11 @@ export function PromoStrip() {
 
 function TimerChip({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-lg bg-white/10 px-2 py-1 sm:px-3 sm:py-2 flex flex-col items-center">
+    <div className="flex min-w-[60px] flex-col items-center rounded-xl bg-black/20 px-3 py-2 ring-1 ring-black/30">
       <AnimatePresence mode="popLayout">
         <motion.p
           key={value}
-          className="text-base font-semibold sm:text-xl"
+          className="text-xl font-bold tabular-nums sm:text-2xl"
           initial={{ opacity: 0, y: 8, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8, scale: 0.96 }}
@@ -65,7 +68,7 @@ function TimerChip({ label, value }: { label: string; value: number }) {
           {String(value).padStart(2, '0')}
         </motion.p>
       </AnimatePresence>
-      <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-white/85">{label}</p>
+      <p className="mt-0.5 text-[10px] uppercase tracking-widest text-white/70">{label}</p>
     </div>
   );
 }

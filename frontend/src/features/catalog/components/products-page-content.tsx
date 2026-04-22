@@ -82,7 +82,7 @@ export function ProductsPageContent({ products, initialCategory, initialQuery }:
         title="Product Listing"
         subtitle="Browse all collections with functional filters and sorting."
         action={
-          <button className="focus-ring inline-flex items-center gap-2 rounded-full border border-border bg-white px-3 py-2 text-sm font-medium lg:hidden" onClick={() => setShowFilters((value) => !value)}>
+          <button className="focus-ring inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm font-medium lg:hidden" onClick={() => setShowFilters((value) => !value)}>
             <SlidersHorizontal className="h-4 w-4" />
             Filters
           </button>

@@ -19,7 +19,7 @@ export function ProfileCard({ profile }: { profile: Profile }) {
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-border bg-white px-3 py-2.5">
+    <div className="rounded-xl border border-border bg-card px-3 py-2.5">
       <p className="text-xs uppercase tracking-wide text-foreground/50">{label}</p>
       <p className="mt-1 break-words text-sm font-medium text-foreground">{value}</p>
     </div>

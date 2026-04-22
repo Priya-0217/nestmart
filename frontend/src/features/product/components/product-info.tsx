@@ -64,12 +64,12 @@ export function ProductInfo({ product }: { product: Product }) {
           className="gap-2"
           onClick={() => toggleWishlist(product.id)}
         >
-          <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current text-rose-500' : ''}`} />
+          <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current text-secondary' : ''}`} />
           {isWishlisted ? 'Saved' : 'Wishlist'}
         </Button>
       </div>
 
-      <ul className="space-y-2 rounded-2xl border border-border bg-white p-4 text-sm text-foreground/75">
+      <ul className="space-y-2 rounded-2xl border border-border bg-card p-4 text-sm text-foreground/75">
         {product.features.map((feature) => (
           <li key={feature} className="flex items-center gap-2">
             <Check className="h-4 w-4 text-primary" />

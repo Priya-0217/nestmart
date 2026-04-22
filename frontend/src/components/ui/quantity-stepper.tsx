@@ -11,7 +11,7 @@ type QuantityStepperProps = {
 
 export function QuantityStepper({ value, onChange, min = 1, max = 99, className }: QuantityStepperProps) {
   return (
-    <div className={cn('inline-flex items-center rounded-full border border-border bg-white', className)}>
+    <div className={cn('inline-flex items-center rounded-full border border-border bg-card', className)}>
       <button
         className="focus-ring rounded-full p-2 text-foreground/70 hover:bg-muted"
         aria-label="Decrease quantity"
