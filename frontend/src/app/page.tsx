@@ -11,6 +11,7 @@ import { ReviewMarquee } from '@/features/home/components/review-marquee';
 import { ScrollReveal } from '@/components/motion/scroll-reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { PromoVideoText } from '@/features/home/components/promo-video-text';
+import { AmbientDotPattern } from '@/components/ui/ambient-dot-pattern';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -24,65 +25,83 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="space-y-6 sm:space-y-8">
-      <SkiperHero slides={heroSlides} />
+      <AmbientDotPattern>
+        <SkiperHero slides={heroSlides} />
+      </AmbientDotPattern>
 
-      <ScrollReveal>
-        <section className="space-y-4">
-          <SectionHeading title="Featured Categories" subtitle="Explore by room and discover products tailored to your space." />
-          <CategoryGrid categories={categories} />
-        </section>
-      </ScrollReveal>
+      <AmbientDotPattern>
+        <ScrollReveal>
+          <section className="space-y-4">
+            <SectionHeading title="Featured Categories" subtitle="Explore by room and discover products tailored to your space." />
+            <CategoryGrid categories={categories} />
+          </section>
+        </ScrollReveal>
+      </AmbientDotPattern>
 
-      <ScrollReveal>
-        <PersonalizedShelves products={products} />
-      </ScrollReveal>
+      <AmbientDotPattern>
+        <ScrollReveal>
+          <PersonalizedShelves products={products} />
+        </ScrollReveal>
+      </AmbientDotPattern>
 
       {homeCollections.slice(0, 1).map((collection) => (
-        <ScrollReveal key={collection.id}>
-          <CollectionStrip
-            title={collection.title}
-            subtitle="Selected by our in-house stylists."
-            productIds={collection.productIds}
-          />
-        </ScrollReveal>
+        <AmbientDotPattern key={collection.id}>
+          <ScrollReveal>
+            <CollectionStrip
+              title={collection.title}
+              subtitle="Selected by our in-house stylists."
+              productIds={collection.productIds}
+            />
+          </ScrollReveal>
+        </AmbientDotPattern>
       ))}
 
-      <ScrollReveal>
-        <PromoVideoText
-          headline="Your Home. Your Style. Your Mart."
-          subheadline="Curated collections designed for modern living"
-        />
-      </ScrollReveal>
-
-      {homeCollections.slice(1).map((collection) => (
-        <ScrollReveal key={collection.id}>
-          <CollectionStrip
-            title={collection.title}
-            subtitle="Selected by our in-house stylists."
-            productIds={collection.productIds}
+      <AmbientDotPattern>
+        <ScrollReveal>
+          <PromoVideoText
+            headline="Your Home. Your Style. Your Mart."
+            subheadline="Curated collections designed for modern living"
           />
         </ScrollReveal>
+      </AmbientDotPattern>
+
+      {homeCollections.slice(1).map((collection) => (
+        <AmbientDotPattern key={collection.id}>
+          <ScrollReveal>
+            <CollectionStrip
+              title={collection.title}
+              subtitle="Selected by our in-house stylists."
+              productIds={collection.productIds}
+            />
+          </ScrollReveal>
+        </AmbientDotPattern>
       ))}
 
       <PromoStrip />
 
-      <ScrollReveal>
-        <section className="space-y-4">
-          <SectionHeading title="Why NestMart" subtitle="Built to make shopping for home essentials effortless." />
-          <FeatureGrid features={homeFeatures} />
-        </section>
-      </ScrollReveal>
+      <AmbientDotPattern>
+        <ScrollReveal>
+          <section className="space-y-4">
+            <SectionHeading title="Why NestMart" subtitle="Built to make shopping for home essentials effortless." />
+            <FeatureGrid features={homeFeatures} />
+          </section>
+        </ScrollReveal>
+      </AmbientDotPattern>
 
-      <ScrollReveal>
-        <section className="space-y-4">
-          <SectionHeading title="Customer Notes" subtitle="Real feedback from homeowners and design professionals." />
-          <ReviewMarquee testimonials={testimonials} />
-        </section>
-      </ScrollReveal>
+      <AmbientDotPattern>
+        <ScrollReveal>
+          <section className="space-y-4">
+            <SectionHeading title="Customer Notes" subtitle="Real feedback from homeowners and design professionals." />
+            <ReviewMarquee testimonials={testimonials} />
+          </section>
+        </ScrollReveal>
+      </AmbientDotPattern>
 
-      <ScrollReveal>
-        <NewsletterCta />
-      </ScrollReveal>
+      <AmbientDotPattern>
+        <ScrollReveal>
+          <NewsletterCta />
+        </ScrollReveal>
+      </AmbientDotPattern>
     </div>
   );
 }

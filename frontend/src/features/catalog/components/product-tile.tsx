@@ -64,37 +64,37 @@ export function ProductTile({ product }: ProductTileProps) {
             <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-1 bg-black/25 opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100">
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-3 py-2 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow min-h-[44px] min-w-[44px] justify-center"
                 onClick={(event) => {
                   event.preventDefault();
                   handleAdd();
                 }}
               >
-                <ShoppingBag className="h-3.5 w-3.5 transition duration-300 group-hover:scale-110 group-hover:rotate-3" />
-                Add to Cart
+                <ShoppingBag className="h-4 w-4 transition duration-300 group-hover:scale-110 group-hover:rotate-3" />
+                <span className="hidden sm:inline">Add to Cart</span>
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-3 py-2 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow min-h-[44px] min-w-[44px] justify-center"
                 onClick={(event) => {
                   event.preventDefault();
                   toggleWishlist(product.id);
                 }}
               >
-                <Heart className={`h-3.5 w-3.5 transition duration-300 group-hover:scale-110 group-hover:-rotate-6 ${isWishlisted ? 'fill-current text-secondary' : ''}`} />
-                {isWishlisted ? 'Wishlisted' : 'Wishlist'}
+                <Heart className={`h-4 w-4 transition duration-300 group-hover:scale-110 group-hover:-rotate-6 ${isWishlisted ? 'fill-current text-secondary' : ''}`} />
+                <span className="hidden sm:inline">{isWishlisted ? 'Wishlisted' : 'Wishlist'}</span>
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow"
+                className="inline-flex items-center gap-1 rounded-full bg-card/95 px-3 py-2 text-[11px] font-semibold text-foreground shadow-sm transition-all duration-300 ease-in-out hover:shadow-glow min-h-[44px] min-w-[44px] justify-center"
                 onClick={(event) => {
                   event.preventDefault();
                   trackProductView(product.id, product.category);
                   router.push(`/products/${product.slug}`);
                 }}
               >
-                <Eye className="h-3.5 w-3.5 transition duration-300 group-hover:scale-110" />
-                Quick View
+                <Eye className="h-4 w-4 transition duration-300 group-hover:scale-110" />
+                <span className="hidden sm:inline">Quick View</span>
               </motion.button>
             </div>
           </div>

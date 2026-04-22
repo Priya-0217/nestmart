@@ -35,7 +35,7 @@ export function CartLineItem({ productSlug, productName, image, variantName, qua
       <div className="flex items-center justify-between gap-3 sm:justify-end">
         <QuantityStepper value={quantity} onChange={onQuantityChange} />
         <p className="min-w-24 text-right text-sm font-semibold">{formatPrice(unitPrice * quantity)}</p>
-        <button className="focus-ring rounded-full p-2 text-foreground/50 hover:bg-muted hover:text-secondary" onClick={onRemove} aria-label="Remove line item">
+        <button className="focus-ring flex h-11 w-11 items-center justify-center rounded-full text-foreground/50 hover:bg-muted hover:text-secondary" onClick={onRemove} aria-label="Remove line item">
           <Trash2 className="h-4 w-4" />
         </button>
       </div>

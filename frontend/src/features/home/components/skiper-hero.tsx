@@ -137,8 +137,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 transition={{ duration: 0.4 }}
               >
                 <motion.div
-                  className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm"
-                  style={{ aspectRatio: '4/3' }}
+                  className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm aspect-[16/9] md:aspect-[21/9]"
                   initial={imageInitial}
                   animate={imageAnimate}
                   exit={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
@@ -194,14 +193,15 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
         <button
           onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
           aria-label="Previous slide"
-          className="icon-button focus-ring absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
+          className="icon-button focus-ring absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
+
         <button
           onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
           aria-label="Next slide"
-          className="icon-button focus-ring absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
+          className="icon-button focus-ring absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

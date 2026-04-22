@@ -11,17 +11,17 @@ type QuantityStepperProps = {
 
 export function QuantityStepper({ value, onChange, min = 1, max = 99, className }: QuantityStepperProps) {
   return (
-    <div className={cn('inline-flex items-center rounded-full border border-border bg-card', className)}>
+    <div className={cn('inline-flex h-11 items-center rounded-full border border-border bg-card', className)}>
       <button
-        className="focus-ring rounded-full p-2 text-foreground/70 hover:bg-muted"
+        className="focus-ring flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-muted"
         aria-label="Decrease quantity"
         onClick={() => onChange(clamp(value - 1, min, max))}
       >
         <Minus className="h-4 w-4" />
       </button>
-      <span className="min-w-9 text-center text-sm font-semibold">{value}</span>
+      <span className="min-w-8 text-center text-sm font-semibold">{value}</span>
       <button
-        className="focus-ring rounded-full p-2 text-foreground/70 hover:bg-muted"
+        className="focus-ring flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-muted"
         aria-label="Increase quantity"
         onClick={() => onChange(clamp(value + 1, min, max))}
       >

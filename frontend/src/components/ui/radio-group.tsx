@@ -18,7 +18,7 @@ export function RadioGroup({ name, value, options, onChange, className }: RadioG
   return (
     <div className={cn('space-y-2', className)}>
       {options.map((option) => (
-        <label key={option.value} className="flex cursor-pointer items-start gap-2.5 rounded-xl border border-border px-3 py-2.5 transition hover:bg-muted/80">
+        <label key={option.value} className="flex min-h-[44px] cursor-pointer items-start gap-2.5 rounded-xl border border-border px-3 py-3 transition hover:bg-muted/80">
           <input
             type="radio"
             name={name}

@@ -86,7 +86,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur">
+    <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur-md will-change-[transform]">
       <Container className="flex h-20 items-center gap-3 md:h-24 md:gap-6">
         <Link href="/" className="inline-flex shrink-0 items-center justify-center transition-opacity duration-200 hover:opacity-85 active:opacity-75 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-secondary rounded-full" aria-label="NestMart Home">
           <Logo className="h-20 w-20 md:h-24 md:w-24" />
