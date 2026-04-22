@@ -86,7 +86,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
   return (
     <section className={cn('surface overflow-hidden p-1', className)}>
       <div className="relative overflow-hidden rounded-[1.5rem] bg-card">
-        <div className="grid items-center gap-6 px-4 py-6 sm:px-6 sm:py-8 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:px-10 md:py-10">
+        <div className="grid items-center gap-4 px-3 py-4 sm:px-5 sm:py-6 md:grid-cols-[1.1fr_0.9fr] md:gap-8 md:px-8 md:py-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSlide.id}
@@ -137,7 +137,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 transition={{ duration: 0.4 }}
               >
                 <motion.div
-                  className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm aspect-[16/9] md:aspect-[21/9]"
+                  className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm aspect-[4/3] md:aspect-[16/9]"
                   initial={imageInitial}
                   animate={imageAnimate}
                   exit={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
