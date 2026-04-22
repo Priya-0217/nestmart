@@ -86,7 +86,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur-md will-change-[transform]">
+    <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur-md will-change-[transform] dark:bg-card/50 dark:backdrop-blur-xl dark:border-white/[0.07] dark:shadow-[0_1px_0_rgba(255,255,255,0.05),0_4px_24px_rgba(0,0,0,0.35)]">
       <Container className="flex h-20 items-center gap-3 md:h-24 md:gap-6">
         <Link href="/" className="inline-flex shrink-0 items-center justify-center transition-opacity duration-200 hover:opacity-85 active:opacity-75 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-secondary rounded-full" aria-label="NestMart Home">
           <Logo className="h-20 w-20 md:h-24 md:w-24" />
@@ -120,7 +120,7 @@ export function SiteHeader() {
             }}
           />
           {searchOpen && query.trim() ? (
-            <div className="absolute left-0 top-full z-40 mt-2 w-full rounded-2xl border border-border bg-card/95 p-2 shadow-lg backdrop-blur">
+            <div className="absolute left-0 top-full z-40 mt-2 w-full rounded-2xl border border-border bg-card/95 p-2 shadow-lg backdrop-blur dark:bg-card/70 dark:backdrop-blur-xl dark:border-white/[0.07] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
               {results.length > 0 ? (
                 <ul className="max-h-72 overflow-auto">
                   {results.map((product) => (
@@ -164,7 +164,7 @@ export function SiteHeader() {
             <UserRound className="h-5 w-5 text-foreground/80" />
           </Link>
           <motion.div whileTap={{ scale: 0.96 }}>
-            <Link href="/cart" className="icon-button focus-ring relative inline-flex rounded-full border border-border bg-card p-2 hover:bg-muted" aria-label="Cart">
+            <Link href="/cart" className="icon-button focus-ring relative inline-flex rounded-full border border-border bg-card p-2 hover:bg-muted dark:bg-card/60 dark:backdrop-blur-md dark:border-white/[0.08]" aria-label="Cart">
               <ShoppingBag className="h-5 w-5 text-foreground/85" />
               {mounted && cartCount > 0 ? (
                 <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[11px] font-bold text-foreground">

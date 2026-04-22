@@ -77,7 +77,7 @@ export function MobileDrawer({ open, onClose, links }: MobileDrawerProps) {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 36, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-0 z-[110] flex h-dvh w-full flex-col gap-6 bg-card p-6 md:hidden"
+            className="fixed inset-0 z-[110] flex h-dvh w-full flex-col gap-6 bg-card p-6 md:hidden dark:bg-card/60 dark:backdrop-blur-2xl dark:border-r dark:border-white/[0.07] dark:shadow-[-8px_0_40px_rgba(0,0,0,0.5)]"
           >
             <div className="flex items-center justify-between border-b border-border pb-4">
               <Link href="/" className="min-w-fit" onClick={onClose}>
