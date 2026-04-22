@@ -133,6 +133,7 @@ button {
 
 .review-marquee {
   @apply overflow-hidden rounded-3xl bg-transparent;
+  contain: layout style;
 }
 
 .review-marquee-scroll {
@@ -191,6 +192,7 @@ button {
 
 .skiper-marquee {
   @apply overflow-hidden rounded-3xl border border-border bg-card;
+  contain: layout style;
 }
 
 .skiper-marquee-scroll {

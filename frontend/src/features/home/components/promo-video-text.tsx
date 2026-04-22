@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -29,11 +30,14 @@ const HEIGHTS = [120, 150, 110, 140, 130, 160, 115, 145];
 
 function ImageTile({ src, alt, height }: { src: string; alt: string; height: number }) {
   return (
-    <div style={{ height, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
-      <img
+    <div style={{ position: 'relative', height, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
+      <Image
         src={src}
         alt={alt}
-        className="h-full w-full object-cover transition-all duration-700"
+        fill
+        loading="lazy"
+        sizes="200px"
+        className="object-cover transition-all duration-700"
         style={{ filter: 'brightness(0.85) contrast(0.9)' }}
       />
     </div>

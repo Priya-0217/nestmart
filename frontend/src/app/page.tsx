@@ -1,17 +1,32 @@
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { categories, heroSlides, homeCollections, homeFeatures, products, testimonials } from '@/data/catalog';
-import { CategoryGrid } from '@/features/home/components/category-grid';
-import { CollectionStrip } from '@/features/home/components/collection-strip';
-import { FeatureGrid } from '@/features/home/components/feature-grid';
 import { SkiperHero } from '@/features/home/components/skiper-hero';
-import { NewsletterCta } from '@/features/home/components/newsletter-cta';
+import { CategoryGrid } from '@/features/home/components/category-grid';
 import { PromoStrip } from '@/features/home/components/promo-strip';
-import { PersonalizedShelves } from '@/features/home/components/personalized-shelves';
-import { ReviewMarquee } from '@/features/home/components/review-marquee';
 import { ScrollReveal } from '@/components/motion/scroll-reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
-import { PromoVideoText } from '@/features/home/components/promo-video-text';
 import { AmbientDotPattern } from '@/components/ui/ambient-dot-pattern';
+
+const PersonalizedShelves = dynamic(
+  () => import('@/features/home/components/personalized-shelves').then((m) => ({ default: m.PersonalizedShelves })),
+  { ssr: false }
+);
+const CollectionStrip = dynamic(() =>
+  import('@/features/home/components/collection-strip').then((m) => ({ default: m.CollectionStrip }))
+);
+const PromoVideoText = dynamic(() =>
+  import('@/features/home/components/promo-video-text').then((m) => ({ default: m.PromoVideoText }))
+);
+const FeatureGrid = dynamic(() =>
+  import('@/features/home/components/feature-grid').then((m) => ({ default: m.FeatureGrid }))
+);
+const ReviewMarquee = dynamic(() =>
+  import('@/features/home/components/review-marquee').then((m) => ({ default: m.ReviewMarquee }))
+);
+const NewsletterCta = dynamic(() =>
+  import('@/features/home/components/newsletter-cta').then((m) => ({ default: m.NewsletterCta }))
+);
 
 export const metadata: Metadata = {
   title: 'Home',
