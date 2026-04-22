@@ -136,25 +136,44 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                <motion.div
-                  className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm aspect-[4/3] md:aspect-[16/9]"
-                  initial={imageInitial}
-                  animate={imageAnimate}
-                  exit={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
-                >
-                  <motion.div className="absolute inset-0" animate={reduceMotion ? { y: 0 } : { y: [0, -8, 0] }} transition={floatTransition}>
-                    <Image
-                      src={activeSlide.image}
-                      alt={activeSlide.title}
-                      fill
-                      className="object-cover"
-                      priority={activeIndex === 0}
-                      loading={activeIndex === 0 ? 'eager' : 'lazy'}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 720px"
-                    />
+                <div className="relative">
+                  <motion.div
+                    className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm aspect-[4/3] md:aspect-[16/9]"
+                    initial={imageInitial}
+                    animate={imageAnimate}
+                    exit={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
+                  >
+                    <motion.div className="absolute inset-0" animate={reduceMotion ? { y: 0 } : { y: [0, -8, 0] }} transition={floatTransition}>
+                      <Image
+                        src={activeSlide.image}
+                        alt={activeSlide.title}
+                        fill
+                        className="object-cover"
+                        priority={activeIndex === 0}
+                        loading={activeIndex === 0 ? 'eager' : 'lazy'}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 720px"
+                      />
+                    </motion.div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black/18 via-transparent to-black/6 dark:from-white/10 dark:via-transparent dark:to-white/18" />
                   </motion.div>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/18 via-transparent to-black/6 dark:from-white/10 dark:via-transparent dark:to-white/18" />
-                </motion.div>
+
+                  <button
+                    onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
+                    aria-label="Previous slide"
+                    className="icon-button focus-ring absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
+                    aria-label="Next slide"
+                    className="icon-button focus-ring absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+
                 {!reduceMotion ? (
                   <motion.div
                     className="pointer-events-none absolute -bottom-10 -right-8 h-28 w-28 rounded-full bg-secondary/30 blur-3xl"
@@ -166,22 +185,6 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
                 ) : null}
               </motion.div>
             </AnimatePresence>
-
-            <button
-              onClick={() => setActiveIndex((activeIndex - 1 + slides.length) % slides.length)}
-              aria-label="Previous slide"
-              className="icon-button focus-ring absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-
-            <button
-              onClick={() => setActiveIndex((activeIndex + 1) % slides.length)}
-              aria-label="Next slide"
-              className="icon-button focus-ring absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/90 text-foreground hover:bg-card"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
           </div>
         </div>
 

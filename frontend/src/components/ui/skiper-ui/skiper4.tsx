@@ -35,10 +35,12 @@ export function ThemeToggle({ className }: { className?: string }) {
         </clipPath>
         <g clipPath="url(#nestmart-theme-btn)">
           <motion.circle
+            initial={{ r: isDark ? 10 : 8 }}
             animate={{ r: isDark ? 10 : 8 }}
             transition={{ ease: 'easeInOut', duration: 0.35 }}
             cx="16"
             cy="16"
+            r={isDark ? 10 : 8}
           />
           <motion.g
             animate={{ rotate: isDark ? -100 : 0, scale: isDark ? 0.5 : 1, opacity: isDark ? 0 : 1 }}
