@@ -1,9 +1,6 @@
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { Container } from '@/components/layout/container';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/ui/logo';
 
 const socialLinks = [
   { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
@@ -15,23 +12,20 @@ const socialLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-14 border-t border-border bg-card">
-      {/* Reduce top padding and remove excessive space */}
-      <Container className="space-y-8 pt-8 pb-10">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            {/* Align logo and text content horizontally */}
-            <div className="flex flex-col items-start">
-              <Link href="/" className="mb-4 inline-flex items-center pl-0">
-                {/* Larger logo for both mobile and desktop, and align left */}
-                <Logo className="h-20 w-20 min-h-[80px] min-w-[80px] md:h-24 md:w-24" />
-              </Link>
-              <h3 className="font-display text-2xl font-semibold pl-0">Design-led essentials for modern homes.</h3>
-              <p className="mt-2 text-sm text-foreground/65 pl-0">
-                NestMart curates furniture, decor, and everyday pieces that balance utility, warmth, and long-term quality.
-              </p>
-            </div>
-            <div className="mt-4 flex gap-2">
+    <footer className="border-t border-border bg-card">
+      <Container className="py-14 sm:py-16 md:py-20">
+
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14">
+
+          {/* Brand */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link href="/" aria-label="NestMart Home" className="inline-block transition-opacity hover:opacity-80">
+              <span className="font-display text-2xl font-bold tracking-tight text-foreground">NestMart</span>
+            </Link>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-foreground/55">
+              Curated furniture, decor, and home essentials — crafted for modern living with lasting quality.
+            </p>
+            <div className="mt-6 flex items-center gap-2.5">
               {socialLinks.map(({ label, href, icon: Icon }) => (
                 <a
                   key={label}
@@ -39,22 +33,27 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="icon-button focus-ring inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 hover:bg-muted"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/45 transition-all duration-200 hover:border-foreground/25 hover:bg-foreground hover:text-background"
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-[15px] w-[15px] transition-transform duration-200 group-hover:scale-110" />
                 </a>
               ))}
             </div>
           </div>
+
+          {/* Shop */}
           <FooterColumn
             title="Shop"
             links={[
               { href: '/products', label: 'All Products' },
               { href: '/products?category=Living%20Room', label: 'Living Room' },
               { href: '/products?category=Kitchen', label: 'Kitchen' },
+              { href: '/products?category=Bedroom', label: 'Bedroom' },
               { href: '/products?category=Decor', label: 'Decor' }
             ]}
           />
+
+          {/* Account */}
           <FooterColumn
             title="Account"
             links={[
@@ -64,33 +63,52 @@ export function SiteFooter() {
               { href: '/cart', label: 'Cart' }
             ]}
           />
-          <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground/75">Newsletter</h4>
-            <p className="mb-3 text-sm text-foreground/65">Get product launches and seasonal savings.</p>
-            <form className="space-y-2" action="https://formsubmit.co/nestmartdemo@mailinator.com" method="POST" target="_blank">
-              <Input type="email" name="email" placeholder="you@example.com" required />
-              <input type="hidden" name="source" value="nestmart-footer-newsletter" />
-              <input type="hidden" name="_subject" value="New NestMart newsletter signup" />
-              <input type="hidden" name="_captcha" value="false" />
-              <Button type="submit" className="w-full">Subscribe</Button>
-            </form>
+
+          {/* Newsletter card */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="rounded-2xl border border-border bg-muted/50 p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-foreground/40">Newsletter</p>
+              <h4 className="mt-1 text-base font-semibold text-foreground">Stay in the loop.</h4>
+              <p className="mt-1.5 text-sm leading-snug text-foreground/55">
+                Product launches, style guides, and seasonal savings — straight to your inbox.
+              </p>
+              <form
+                className="mt-5 space-y-2.5"
+                action="https://formsubmit.co/nestmartdemo@mailinator.com"
+                method="POST"
+                target="_blank"
+              >
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                  className="h-11 w-full rounded-xl border border-border bg-background px-4 text-sm text-foreground placeholder:text-foreground/35 outline-none ring-offset-background transition focus:ring-2 focus:ring-secondary/60"
+                />
+                <input type="hidden" name="source" value="nestmart-footer-newsletter" />
+                <input type="hidden" name="_subject" value="New NestMart newsletter signup" />
+                <input type="hidden" name="_captcha" value="false" />
+                <button
+                  type="submit"
+                  className="h-11 w-full rounded-xl bg-foreground text-sm font-semibold text-background transition-all duration-150 hover:opacity-85 active:scale-[0.985]"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-xs text-foreground/55">
+        {/* Bottom bar */}
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6 text-xs text-foreground/40">
           <p>© {new Date().getFullYear()} NestMart. All rights reserved.</p>
-          <div className="flex items-center gap-3">
-            <Link href="/products" className="hover:text-foreground">
-              Terms
-            </Link>
-            <Link href="/products" className="hover:text-foreground">
-              Privacy
-            </Link>
-            <Link href="/products" className="hover:text-foreground">
-              Shipping
-            </Link>
+          <div className="flex items-center gap-5">
+            <Link href="/products" className="transition-colors duration-150 hover:text-foreground/70">Terms</Link>
+            <Link href="/products" className="transition-colors duration-150 hover:text-foreground/70">Privacy</Link>
+            <Link href="/products" className="transition-colors duration-150 hover:text-foreground/70">Shipping</Link>
           </div>
         </div>
+
       </Container>
     </footer>
   );
@@ -99,12 +117,17 @@ export function SiteFooter() {
 function FooterColumn({ title, links }: { title: string; links: Array<{ href: string; label: string }> }) {
   return (
     <div>
-      <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-foreground/75">{title}</h4>
-      <ul className="space-y-2 text-sm">
+      <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-foreground/40">{title}</h4>
+      <ul className="space-y-3.5">
         {links.map((link) => (
           <li key={link.href + link.label}>
-            <Link href={link.href} className="text-foreground/65 hover:text-foreground">
-              {link.label}
+            <Link
+              href={link.href}
+              className="group inline-block text-sm text-foreground/60 transition-colors duration-150 hover:text-foreground"
+            >
+              <span className="relative after:absolute after:-bottom-px after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-200 group-hover:after:w-full">
+                {link.label}
+              </span>
             </Link>
           </li>
         ))}

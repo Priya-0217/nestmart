@@ -15,7 +15,7 @@ export function AppShell({ children, fullWidth }: AppShellProps) {
     <>
       <SiteHeader />
       <ToastViewport />
-      <main className="min-h-[calc(100vh-4rem)] pb-6 pt-24 sm:pb-8 sm:pt-24">
+      <main className="min-h-[calc(100vh-4rem)] pb-6 pt-16 sm:pb-8 sm:pt-20 md:pt-24">
         <PageTransition>{fullWidth ? children : <Container>{children}</Container>}</PageTransition>
       </main>
       <SiteFooter />

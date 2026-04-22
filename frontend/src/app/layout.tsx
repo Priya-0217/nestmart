@@ -46,8 +46,8 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${display.variable} ${body.variable}`}>
+    <html lang="en" style={{ backgroundColor: '#F8FAFC' }}>
+      <body className={`${display.variable} ${body.variable}`} style={{ backgroundColor: '#F8FAFC' }}>
         <AppShell>{children}</AppShell>
       </body>
     </html>

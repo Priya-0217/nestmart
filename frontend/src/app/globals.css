@@ -6,6 +6,10 @@
   color-scheme: light;
 }
 
+html {
+  background-color: #F8FAFC;
+}
+
 * {
   @apply border-border antialiased;
 }

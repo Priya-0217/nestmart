@@ -86,7 +86,7 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
   return (
     <section className={cn('surface overflow-hidden p-1', className)}>
       <div className="relative overflow-hidden rounded-[1.5rem] bg-card">
-        <div className="grid items-center gap-10 px-6 py-10 md:grid-cols-[1.1fr_0.9fr] md:px-10">
+        <div className="grid items-center gap-6 px-4 py-6 sm:px-6 sm:py-8 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:px-10 md:py-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSlide.id}
@@ -135,19 +135,20 @@ export function SkiperHero({ slides, className }: SkiperHeroProps) {
               >
                 <motion.div
                   className="relative overflow-hidden rounded-[1.5rem] border border-border bg-muted shadow-sm"
+                  style={{ aspectRatio: '4/3' }}
                   initial={imageInitial}
                   animate={imageAnimate}
                   exit={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.98 }}
                 >
-                  <motion.div animate={reduceMotion ? { y: 0 } : { y: [0, -8, 0] }} transition={floatTransition}>
+                  <motion.div className="absolute inset-0" animate={reduceMotion ? { y: 0 } : { y: [0, -8, 0] }} transition={floatTransition}>
                     <Image
                       src={activeSlide.image}
                       alt={activeSlide.title}
-                      width={720}
-                      height={520}
-                      className="h-full w-full object-cover"
+                      fill
+                      className="object-cover"
                       priority={activeIndex === 0}
-                      sizes="(max-width: 1024px) 100vw, 720px"
+                      loading={activeIndex === 0 ? 'eager' : 'lazy'}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 720px"
                     />
                   </motion.div>
                   <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />

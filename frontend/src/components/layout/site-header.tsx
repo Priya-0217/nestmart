@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -87,10 +86,9 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-[130] border-b border-border bg-card/90 backdrop-blur">
-      <Container className="flex h-20 items-center gap-4 md:gap-6 pl-3 sm:pl-4">
-        <Link href="/" className="inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-85 active:opacity-75 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-secondary rounded-full" aria-label="NestMart Home">
-          {/* Larger logo for navbar, responsive */}
-          <Logo className="h-20 w-20 min-h-[80px] min-w-[80px] md:h-24 md:w-24" />
+      <Container className="flex h-14 items-center gap-3 sm:h-16 md:h-20 md:gap-6">
+        <Link href="/" className="inline-flex shrink-0 items-center justify-center transition-opacity duration-200 hover:opacity-85 active:opacity-75 focus-visible:outline-offset-2 focus-visible:outline-2 focus-visible:outline-secondary rounded-full" aria-label="NestMart Home">
+          <Logo className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16" />
         </Link>
 
         <div ref={searchRef} className="relative hidden flex-1 md:block">

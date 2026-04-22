@@ -9,13 +9,28 @@ import { getCategoryClicks, getRecentlyViewed } from '@/lib/personalization';
 const MAX_ITEMS = 6;
 const MIN_RECENT_ITEMS = 3;
 
+function ShelfSkeleton() {
+  return (
+    <section className="space-y-3">
+      <div className="h-5 w-44 animate-pulse rounded-full bg-muted/70" />
+      <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-64 animate-pulse rounded-2xl bg-muted/70 sm:h-72" />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function PersonalizedShelves({ products }: { products: Product[] }) {
+  const [mounted, setMounted] = useState(false);
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [categoryClicks, setCategoryClicks] = useState<Record<string, number>>({});
 
   useEffect(() => {
     setRecentIds(getRecentlyViewed());
     setCategoryClicks(getCategoryClicks());
+    setMounted(true);
   }, []);
 
   const recentlyViewed = useMemo(() => {
@@ -59,6 +74,10 @@ export function PersonalizedShelves({ products }: { products: Product[] }) {
   }, [categoryClicks, products, recentIds]);
 
   const showRecentlyViewed = recentlyViewed.length >= MIN_RECENT_ITEMS;
+
+  if (!mounted) {
+    return <ShelfSkeleton />;
+  }
 
   if (!showRecentlyViewed && recommended.length === 0) {
     return null;
