@@ -9,9 +9,9 @@ type SortSelectProps = {
 
 export function SortSelect({ value, onChange }: SortSelectProps) {
   return (
-    <label className="flex items-center gap-2 text-sm">
-      <span className="text-foreground/70">Sort:</span>
-      <Select className="h-10 w-44 rounded-full" value={value} onChange={(event) => onChange(event.target.value as SortValue)}>
+    <label className="flex flex-col gap-1.5 text-sm sm:flex-row sm:items-center sm:gap-2">
+      <span className="whitespace-nowrap text-foreground/70">Sort by</span>
+      <Select className="h-10 w-full rounded-full sm:w-44" value={value} onChange={(event) => onChange(event.target.value as SortValue)}>
         <option value="featured">Featured</option>
         <option value="price-asc">Price: Low to High</option>
         <option value="price-desc">Price: High to Low</option>

@@ -43,11 +43,11 @@ export function ProductInfo({ product }: { product: Product }) {
 
       <VariantPicker variants={product.variants} activeVariantId={selectedVariantId} onChange={setSelectedVariantId} />
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex items-center gap-3">
         <QuantityStepper value={quantity} onChange={setQuantity} />
         <Button
           size="lg"
-          className="gap-2"
+          className="flex-1 gap-2 sm:flex-none"
           onClick={() => {
             if (!selectedVariant) {
               return;
@@ -61,11 +61,13 @@ export function ProductInfo({ product }: { product: Product }) {
         <Button
           size="lg"
           variant="outline"
-          className="gap-2"
+          className="aspect-square gap-2 !px-0 sm:aspect-auto sm:!px-6"
+          aria-label={isWishlisted ? 'Saved to wishlist' : 'Add to wishlist'}
+          aria-pressed={isWishlisted}
           onClick={() => toggleWishlist(product.id)}
         >
-          <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current text-secondary' : ''}`} />
-          {isWishlisted ? 'Saved' : 'Wishlist'}
+          <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-current text-secondary' : ''}`} />
+          <span className="hidden sm:inline">{isWishlisted ? 'Saved' : 'Wishlist'}</span>
         </Button>
       </div>
 

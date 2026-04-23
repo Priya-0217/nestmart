@@ -27,17 +27,33 @@
 
 html {
   background-color: rgb(var(--color-background));
+  transition: background-color 250ms ease;
 }
 
 * {
   @apply border-border antialiased;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 body {
   @apply bg-background bg-grain font-body text-foreground;
   overflow-x: clip;
   width: 100%;
+  transition: background-color 250ms ease, color 250ms ease;
+}
+
+.surface,
+.glass {
+  transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease, box-shadow 250ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  .surface,
+  .glass {
+    transition: none;
+  }
 }
 
 .dark body {
@@ -296,4 +312,37 @@ button {
 
 .skiper-marquee[data-reduce='true'] .skiper-marquee-track {
   animation: none;
+}
+
+.heading-underline {
+  display: block;
+  height: 3px;
+  width: 56px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgb(var(--color-primary)) 0%, rgb(var(--color-secondary)) 50%, rgb(var(--color-primary)) 100%);
+  background-size: 200% 100%;
+  animation: heading-underline-flow 3.5s ease-in-out infinite;
+  will-change: background-position, width;
+}
+
+@keyframes heading-underline-flow {
+  0% {
+    background-position: 0% 50%;
+    width: 56px;
+  }
+  50% {
+    background-position: 100% 50%;
+    width: 96px;
+  }
+  100% {
+    background-position: 0% 50%;
+    width: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heading-underline {
+    animation: none;
+    width: 56px;
+  }
 }
