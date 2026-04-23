@@ -43,7 +43,6 @@ export const products: Product[] = [
     stock: 40,
     images: [
       'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=1400&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=1400&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop'
     ],
     description: 'A soft-glow pendant lamp for dining spaces and kitchen islands.',

@@ -3,20 +3,24 @@
 import { FormEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToastStore } from '@/store/toast-store';
 
 export function NewsletterCta() {
   const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const pushToast = useToastStore((state) => state.push);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!email.trim()) {
-      return;
-    }
+    const trimmed = email.trim();
+    if (!trimmed) return;
 
-    const subject = encodeURIComponent('Newsletter Subscription Request');
-    const body = encodeURIComponent(`Please add this email to the newsletter list: ${email.trim()}`);
-    window.location.href = `mailto:nestmartdemo@mailinator.com?subject=${subject}&body=${body}`;
-    setEmail('');
+    setSubmitting(true);
+    window.setTimeout(() => {
+      pushToast(`You're subscribed — we'll send style drops to ${trimmed}.`, 'success');
+      setEmail('');
+      setSubmitting(false);
+    }, 300);
   }
 
   return (
@@ -30,8 +34,8 @@ export function NewsletterCta() {
         <form onSubmit={onSubmit} className="w-full max-w-xl space-y-2">
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required placeholder="you@example.com" className="rounded-full !bg-black/20 !border-black/30 text-white placeholder:text-white/60" />
-            <Button size="lg" className="sm:w-auto">
-              Subscribe
+            <Button type="submit" size="lg" className="sm:w-auto" disabled={submitting}>
+              {submitting ? 'Subscribing…' : 'Subscribe'}
             </Button>
           </div>
           <p className="text-xs text-white/60">No spam, unsubscribe anytime.</p>

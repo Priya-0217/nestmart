@@ -6,26 +6,39 @@ import { useEffect, useState } from 'react';
 type ProductImageProps = Omit<ImageProps, 'src' | 'alt'> & {
   src: string;
   alt: string;
-  fallbackSrc?: string;
 };
 
-const DEFAULT_FALLBACK_SRC = '/product-placeholder.svg';
+const PLACEHOLDER_SRC = '/product-placeholder.svg';
 
-export function ProductImage({ src, alt, fallbackSrc = DEFAULT_FALLBACK_SRC, onError, ...props }: ProductImageProps) {
-  const [resolvedSrc, setResolvedSrc] = useState(src);
+type Stage = 'primary' | 'picsum' | 'placeholder';
+
+function picsumFallback(src: string): string {
+  const tail = src.split('?')[0].split('/').pop() ?? 'nestmart';
+  const seed = encodeURIComponent(tail);
+  return `https://picsum.photos/seed/${seed}/800/800`;
+}
+
+export function ProductImage({ src, alt, onError, ...props }: ProductImageProps) {
+  const [stage, setStage] = useState<Stage>('primary');
+  const [currentSrc, setCurrentSrc] = useState(src);
 
   useEffect(() => {
-    setResolvedSrc(src);
+    setStage('primary');
+    setCurrentSrc(src);
   }, [src]);
 
   return (
     <Image
       {...props}
-      src={resolvedSrc}
+      src={currentSrc}
       alt={alt}
       onError={(event) => {
-        if (resolvedSrc !== fallbackSrc) {
-          setResolvedSrc(fallbackSrc);
+        if (stage === 'primary') {
+          setStage('picsum');
+          setCurrentSrc(picsumFallback(src));
+        } else if (stage === 'picsum') {
+          setStage('placeholder');
+          setCurrentSrc(PLACEHOLDER_SRC);
         }
         onError?.(event);
       }}
