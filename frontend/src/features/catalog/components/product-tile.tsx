@@ -49,6 +49,7 @@ export function ProductTile({ product }: ProductTileProps) {
             <ProductImage
               src={product.images[0]}
               alt={product.name}
+              category={product.category}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover transition-all duration-500 ease-in-out group-hover:scale-[1.06] group-hover:opacity-0"
@@ -57,6 +58,7 @@ export function ProductTile({ product }: ProductTileProps) {
             <ProductImage
               src={secondaryImage}
               alt={`${product.name} alternate`}
+              category={product.category}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover opacity-0 transition-all duration-500 ease-in-out group-hover:scale-[1.06] group-hover:opacity-100"

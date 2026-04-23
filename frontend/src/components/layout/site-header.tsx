@@ -134,7 +134,7 @@ export function SiteHeader() {
                           setQuery('');
                         }}
                       >
-                        <ProductImage src={product.images[0]} alt={product.name} width={32} height={32} className="h-8 w-8 rounded-md object-cover" />
+                        <ProductImage src={product.images[0]} alt={product.name} category={product.category} width={32} height={32} className="h-8 w-8 rounded-md object-cover" />
                         <div className="min-w-0 flex-1">
                           <p className="truncate font-medium text-foreground">{product.name}</p>
                           <Badge tone="muted" className="mt-1">

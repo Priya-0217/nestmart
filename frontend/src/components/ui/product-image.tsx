@@ -6,19 +6,25 @@ import { useEffect, useState } from 'react';
 type ProductImageProps = Omit<ImageProps, 'src' | 'alt'> & {
   src: string;
   alt: string;
+  category?: string;
 };
 
 const PLACEHOLDER_SRC = '/product-placeholder.svg';
 
-type Stage = 'primary' | 'picsum' | 'placeholder';
+const CATEGORY_FALLBACK: Record<string, string> = {
+  'Living Room': 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1400&auto=format&fit=crop',
+  Lighting: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=1400&auto=format&fit=crop',
+  Kitchen: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=1400&auto=format&fit=crop',
+  Bedroom: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1400&auto=format&fit=crop',
+  Dining: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop',
+  Decor: 'https://images.unsplash.com/photo-1600607688066-890987f18a86?q=80&w=1400&auto=format&fit=crop',
+  Office: 'https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?q=80&w=1400&auto=format&fit=crop',
+  Wellness: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1400&auto=format&fit=crop'
+};
 
-function picsumFallback(src: string): string {
-  const tail = src.split('?')[0].split('/').pop() ?? 'nestmart';
-  const seed = encodeURIComponent(tail);
-  return `https://picsum.photos/seed/${seed}/800/800`;
-}
+type Stage = 'primary' | 'category' | 'placeholder';
 
-export function ProductImage({ src, alt, onError, ...props }: ProductImageProps) {
+export function ProductImage({ src, alt, category, onError, ...props }: ProductImageProps) {
   const [stage, setStage] = useState<Stage>('primary');
   const [currentSrc, setCurrentSrc] = useState(src);
 
@@ -34,9 +40,15 @@ export function ProductImage({ src, alt, onError, ...props }: ProductImageProps)
       alt={alt}
       onError={(event) => {
         if (stage === 'primary') {
-          setStage('picsum');
-          setCurrentSrc(picsumFallback(src));
-        } else if (stage === 'picsum') {
+          const categoryFallback = category ? CATEGORY_FALLBACK[category] : undefined;
+          if (categoryFallback && categoryFallback !== src) {
+            setStage('category');
+            setCurrentSrc(categoryFallback);
+          } else {
+            setStage('placeholder');
+            setCurrentSrc(PLACEHOLDER_SRC);
+          }
+        } else if (stage === 'category') {
           setStage('placeholder');
           setCurrentSrc(PLACEHOLDER_SRC);
         }

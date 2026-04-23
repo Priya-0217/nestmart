@@ -324,8 +324,7 @@ export const products: Product[] = [
     stock: 20,
     images: [
       'https://images.unsplash.com/photo-1499933374294-4584851497cc?q=80&w=1400&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1400&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=1400&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?q=80&w=1400&auto=format&fit=crop'
     ],
     description: 'Sculpted lounge chair with a supportive curved back.',
     longDescription:

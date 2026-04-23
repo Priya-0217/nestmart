@@ -47,7 +47,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Products', href: '/products' }, { label: product.name }]} />
 
       <section className="grid gap-6 lg:grid-cols-2">
-        <ProductGallery images={product.images} name={product.name} />
+        <ProductGallery images={product.images} name={product.name} category={product.category} />
         <ProductInfo product={product} />
       </section>
 
