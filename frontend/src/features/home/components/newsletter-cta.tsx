@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 
 export function NewsletterCta() {
   const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -14,9 +13,10 @@ export function NewsletterCta() {
       return;
     }
 
-    setSubmitted(true);
+    const subject = encodeURIComponent('Newsletter Subscription Request');
+    const body = encodeURIComponent(`Please add this email to the newsletter list: ${email.trim()}`);
+    window.location.href = `mailto:nestmartdemo@mailinator.com?subject=${subject}&body=${body}`;
     setEmail('');
-    setTimeout(() => setSubmitted(false), 2500);
   }
 
   return (
@@ -34,7 +34,7 @@ export function NewsletterCta() {
               Subscribe
             </Button>
           </div>
-          <p className="text-xs text-white/60">{submitted ? 'Thanks! You are in.' : 'No spam, unsubscribe anytime.'}</p>
+          <p className="text-xs text-white/60">No spam, unsubscribe anytime.</p>
         </form>
       </div>
     </section>
