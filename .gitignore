@@ -33,3 +33,4 @@ build/
 
 # Media
 *.mp4
+.claude/

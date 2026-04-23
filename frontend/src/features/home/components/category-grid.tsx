@@ -2,43 +2,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Category } from '@/lib/types';
 import { FadeIn } from '@/components/motion/fade-in';
 import { TRANSITION_STANDARD } from '@/lib/motion';
 
 export function CategoryGrid({ categories }: { categories: Category[] }) {
-  const railRef = useRef<HTMLDivElement>(null);
-  const [dragLimit, setDragLimit] = useState(0);
-
-  useEffect(() => {
-    const rail = railRef.current;
-    if (!rail) {
-      return;
-    }
-
-    const updateLimits = () => {
-      const limit = rail.scrollWidth - rail.clientWidth;
-      setDragLimit(limit > 0 ? limit : 0);
-    };
-
-    updateLimits();
-    window.addEventListener('resize', updateLimits);
-    return () => window.removeEventListener('resize', updateLimits);
-  }, [categories.length]);
-
-  const canDrag = dragLimit > 0;
-
   return (
-    <motion.div
-      ref={railRef}
-      drag={canDrag ? 'x' : false}
-      dragConstraints={{ left: -dragLimit, right: 0 }}
-      dragElastic={0.12}
-      className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pr-2 active:cursor-grabbing sm:grid sm:grid-cols-2 sm:overflow-visible sm:pr-0 xl:grid-cols-4"
-      style={{ cursor: canDrag ? 'grab' : 'auto' }}
-    >
+    <div className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 pr-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pr-0 xl:grid-cols-4">
       {categories.map((category, index) => (
         <FadeIn key={category.id} delay={index * 0.04} className="min-w-[220px] snap-start sm:min-w-0">
           <motion.article whileHover={{ y: -6 }} transition={TRANSITION_STANDARD} className="surface group overflow-hidden transition-all duration-300 ease-in-out">
@@ -55,6 +26,6 @@ export function CategoryGrid({ categories }: { categories: Category[] }) {
           </motion.article>
         </FadeIn>
       ))}
-    </motion.div>
+    </div>
   );
 }

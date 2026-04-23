@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { products } from '@/data/catalog';
@@ -21,26 +20,6 @@ export function CollectionStrip({ title, subtitle, productIds }: CollectionStrip
   const items = productIds
     .map((id) => products.find((product) => product.id === id))
     .filter((product): product is Product => Boolean(product));
-  const railRef = useRef<HTMLDivElement>(null);
-  const [dragLimit, setDragLimit] = useState(0);
-
-  useEffect(() => {
-    const rail = railRef.current;
-    if (!rail) {
-      return;
-    }
-
-    const updateLimits = () => {
-      const limit = rail.scrollWidth - rail.clientWidth;
-      setDragLimit(limit > 0 ? limit : 0);
-    };
-
-    updateLimits();
-    window.addEventListener('resize', updateLimits);
-    return () => window.removeEventListener('resize', updateLimits);
-  }, [items.length]);
-
-  const canDrag = dragLimit > 0;
 
   if (items.length === 0) {
     return null;
@@ -58,20 +37,13 @@ export function CollectionStrip({ title, subtitle, productIds }: CollectionStrip
           </Link>
         }
       />
-      <motion.div
-        ref={railRef}
-        drag={canDrag ? 'x' : false}
-        dragConstraints={{ left: -dragLimit, right: 0 }}
-        dragElastic={0.12}
-        className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-2 pr-2 active:cursor-grabbing sm:hidden"
-        style={{ cursor: canDrag ? 'grab' : 'auto' }}
-      >
+      <div className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 pr-2 sm:hidden">
         {items.map((product) => (
           <motion.div key={product.id} className="min-w-[240px] snap-start" whileHover={{ y: -6 }} transition={TRANSITION_STANDARD}>
             <ProductTile product={product} />
           </motion.div>
         ))}
-      </motion.div>
+      </div>
       <div className="hidden sm:block">
         <ProductGrid products={items} />
       </div>
