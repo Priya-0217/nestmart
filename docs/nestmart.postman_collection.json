@@ -1,0 +1,845 @@
+{
+  "info": {
+    "name": "NestMart API",
+    "description": "Complete NestMart backend API — Milestone 3.\n\n**Setup:**\n1. Run backend: `cd backend && npm run dev`\n2. Set `{{baseUrl}}` collection variable (default: http://localhost:5000)\n3. Run `Auth > Register` then `Auth > Verify OTP` (grab OTP from server logs), then `Auth > Login`\n4. Tokens from login are auto-saved to `{{accessToken}}` and `{{refreshToken}}`\n\nEvery request documents its expected response in its description.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000", "type": "string" },
+    { "key": "accessToken", "value": "", "type": "string" },
+    { "key": "refreshToken", "value": "", "type": "string" },
+    { "key": "productId", "value": "", "type": "string" },
+    { "key": "categoryId", "value": "", "type": "string" },
+    { "key": "orderId", "value": "", "type": "string" },
+    { "key": "addressId", "value": "", "type": "string" },
+    { "key": "couponId", "value": "", "type": "string" },
+    { "key": "reviewId", "value": "", "type": "string" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /api/health",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health",
+            "description": "Liveness probe.\n\n**Response 200:**\n```json\n{\n  \"status\": \"ok\",\n  \"service\": \"nestmart-api\",\n  \"timestamp\": \"2026-04-24T10:00:00.000Z\"\n}\n```"
+          }
+        },
+        {
+          "name": "GET /api/health/ready",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health/ready",
+            "description": "Readiness probe checking Mongo + Postgres.\n\n**Response 200 (ready) or 503 (degraded):**\n```json\n{ \"status\": \"ready\", \"checks\": { \"mongo\": true, \"postgres\": true } }\n```"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /api/auth/register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body.user?.email) pm.collectionVariables.set('email', body.user.email);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ankur Tester\",\n  \"email\": \"ankur+test@example.com\",\n  \"password\": \"Str0ngP@ssw0rd!\"\n}"
+            },
+            "description": "Creates a user, sends OTP email (6-digit, 10-min TTL) and welcome email.\n\n**201:**\n```json\n{\n  \"user\": { \"id\": \"clxxx\", \"email\": \"...\", \"name\": \"...\", \"role\": \"customer\", \"emailVerified\": false },\n  \"otpSent\": true\n}\n```\n\n**409** if email already registered."
+          }
+        },
+        {
+          "name": "POST /api/auth/verify-otp",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/verify-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ankur+test@example.com\",\n  \"otp\": \"123456\"\n}"
+            },
+            "description": "Verifies the 6-digit OTP. OTP is emitted via SMTP when configured; in dev it's logged by the server.\n\n**200:** `{ \"verified\": true }`\n**400:** `Invalid or expired code`"
+          }
+        },
+        {
+          "name": "POST /api/auth/login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body.accessToken) pm.collectionVariables.set('accessToken', body.accessToken);",
+                  "if (body.refreshToken) pm.collectionVariables.set('refreshToken', body.refreshToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ankur+test@example.com\",\n  \"password\": \"Str0ngP@ssw0rd!\"\n}"
+            },
+            "description": "**200:**\n```json\n{\n  \"user\": { \"id\": \"...\", \"email\": \"...\", \"role\": \"customer\" },\n  \"accessToken\": \"<jwt 15m>\",\n  \"refreshToken\": \"<jwt 7d>\"\n}\n```\n**401** on bad credentials."
+          }
+        },
+        {
+          "name": "POST /api/auth/refresh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body.accessToken) pm.collectionVariables.set('accessToken', body.accessToken);",
+                  "if (body.refreshToken) pm.collectionVariables.set('refreshToken', body.refreshToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/refresh",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"refreshToken\": \"{{refreshToken}}\" }"
+            },
+            "description": "Rotates refresh token. Old session is revoked; new pair is issued.\n\n**200:** same shape as login."
+          }
+        },
+        {
+          "name": "POST /api/auth/logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/logout",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"refreshToken\": \"{{refreshToken}}\" }"
+            },
+            "description": "Revokes the refresh token's session row. Idempotent.\n\n**200:** `{ \"ok\": true }`"
+          }
+        },
+        {
+          "name": "POST /api/auth/forgot-password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/forgot-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"ankur+test@example.com\" }"
+            },
+            "description": "Always returns 200 regardless of whether the email exists (prevents user enumeration).\n\nIf the email exists, a signed reset link is emailed (30-min TTL)."
+          }
+        },
+        {
+          "name": "POST /api/auth/reset-password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/reset-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"<token from email link>\",\n  \"password\": \"NewStr0ngP@ss!\"\n}"
+            },
+            "description": "Validates the token, updates password hash, revokes ALL active sessions for that user.\n\n**200:** `{ \"ok\": true }`\n**400:** on invalid/expired token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "GET /api/products",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": {
+              "raw": "{{baseUrl}}/api/products?q=&category=&brand=&tag=&minPrice=&maxPrice=&minRating=&inStock=&sort=newest&page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"],
+              "query": [
+                { "key": "q", "value": "", "description": "text search across title/description/tags" },
+                { "key": "category", "value": "", "description": "Category ObjectId" },
+                { "key": "brand", "value": "" },
+                { "key": "tag", "value": "" },
+                { "key": "minPrice", "value": "" },
+                { "key": "maxPrice", "value": "" },
+                { "key": "minRating", "value": "", "description": "0..5" },
+                { "key": "inStock", "value": "", "description": "true|false" },
+                { "key": "sort", "value": "newest", "description": "newest|price-asc|price-desc|rating|popular" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            },
+            "description": "**200:**\n```json\n{\n  \"items\": [ { \"_id\": \"...\", \"slug\": \"aurora-sofa\", \"title\": \"...\", \"price\": 799, \"stock\": 11, \"ratingAverage\": 4.7 } ],\n  \"pagination\": { \"page\": 1, \"limit\": 20, \"total\": 42, \"totalPages\": 3 }\n}\n```"
+          }
+        },
+        {
+          "name": "GET /api/products/:id",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/api/products/{{productId}}",
+            "description": "**200:** full product document. **404** if not found or invalid ObjectId."
+          }
+        },
+        {
+          "name": "GET /api/products/:id/related",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/api/products/{{productId}}/related",
+            "description": "Returns up to 8 products matching by category or tag overlap, sorted by rating.\n\n**200:** `{ \"items\": [...] }`"
+          }
+        },
+        {
+          "name": "POST /api/products (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body._id) pm.collectionVariables.set('productId', body._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"aurora-sofa\",\n  \"title\": \"Aurora Linen Sofa\",\n  \"description\": \"Three-seater linen sofa\",\n  \"brand\": \"NestMart\",\n  \"category\": \"{{categoryId}}\",\n  \"tags\": [\"living-room\", \"sofa\"],\n  \"images\": [\"https://cdn.example.com/aurora.jpg\"],\n  \"price\": 799,\n  \"compareAtPrice\": 899,\n  \"stock\": 11,\n  \"isActive\": true,\n  \"isFeatured\": true\n}"
+            },
+            "description": "Requires admin or manager. **201:** returns created product."
+          }
+        },
+        {
+          "name": "PATCH /api/products/:id (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/products/{{productId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"price\": 749, \"stock\": 20 }"
+            },
+            "description": "Requires admin or manager. **200:** returns updated product."
+          }
+        },
+        {
+          "name": "DELETE /api/products/:id (admin)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/products/{{productId}}",
+            "description": "Requires admin. **200:** `{ \"ok\": true }`"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "GET /api/categories",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/api/categories",
+            "description": "Returns the full nested category tree.\n\n**200:** `{ \"items\": [{ ..., \"children\": [{ ... }] }] }`"
+          }
+        },
+        {
+          "name": "GET /api/categories/:id",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/api/categories/{{categoryId}}"
+          }
+        },
+        {
+          "name": "POST /api/categories (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body._id) pm.collectionVariables.set('categoryId', body._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/categories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"living-room\",\n  \"name\": \"Living Room\",\n  \"description\": \"Sofas, tables, and more\",\n  \"order\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/categories/:id (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/categories/{{categoryId}}",
+            "body": { "mode": "raw", "raw": "{ \"name\": \"Living Spaces\" }" }
+          }
+        },
+        {
+          "name": "DELETE /api/categories/:id (admin)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/categories/{{categoryId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "GET /api/cart",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/cart",
+            "description": "Returns the user's cart with server-computed totals.\n\n**200:**\n```json\n{\n  \"cart\": { \"items\": [...], \"couponCode\": null },\n  \"totals\": { \"itemCount\": 2, \"subtotal\": 1598, \"discount\": 0, \"shipping\": 0, \"tax\": 287.64, \"total\": 1885.64, \"currency\": \"INR\", \"coupon\": null }\n}\n```"
+          }
+        },
+        {
+          "name": "POST /api/cart/items",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/cart/items",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"productId\": \"{{productId}}\", \"quantity\": 1 }"
+            },
+            "description": "**201:** cart + totals. **400** on out-of-stock."
+          }
+        },
+        {
+          "name": "PATCH /api/cart/items",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/cart/items",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"productId\": \"{{productId}}\", \"quantity\": 3 }"
+            },
+            "description": "Set quantity to 0 to remove. **200:** cart + totals."
+          }
+        },
+        {
+          "name": "DELETE /api/cart/items",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/cart/items",
+            "body": { "mode": "raw", "raw": "{ \"productId\": \"{{productId}}\" }" }
+          }
+        },
+        {
+          "name": "POST /api/cart/coupon",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/cart/coupon",
+            "body": { "mode": "raw", "raw": "{ \"code\": \"WELCOME10\" }" },
+            "description": "Applies and stores the coupon. Server re-validates on every totals compute."
+          }
+        },
+        {
+          "name": "DELETE /api/cart/coupon",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/cart/coupon"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "POST /api/orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body._id) pm.collectionVariables.set('orderId', body._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"cod\",\n  \"shippingAddress\": {\n    \"fullName\": \"Ankur T\",\n    \"phone\": \"+919999999999\",\n    \"line1\": \"221B Baker Street\",\n    \"city\": \"Pune\",\n    \"state\": \"MH\",\n    \"postalCode\": \"411001\",\n    \"country\": \"IN\"\n  }\n}"
+            },
+            "description": "Creates order from the current cart. Re-checks stock, recomputes totals, decrements stock, bumps coupon usage, clears cart, emails confirmation.\n\n**paymentMethod:** `stripe` | `razorpay` | `cod`. For `cod` the order is placed as `pending`; for stripe/razorpay the client flow then creates a payment intent via `/payments/*`."
+          }
+        },
+        {
+          "name": "GET /api/orders (mine)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders?page=1&limit=20&status=",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /api/orders/:id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/orders/{{orderId}}",
+            "description": "**200:** full order. **403** if not yours and not admin."
+          }
+        },
+        {
+          "name": "POST /api/orders/:id/cancel",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/cancel",
+            "body": { "mode": "raw", "raw": "{ \"reason\": \"Changed my mind\" }" },
+            "description": "Allowed only while order is `pending` or `paid`. Restocks items."
+          }
+        },
+        {
+          "name": "POST /api/orders/:id/return",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/return",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"reason\": \"Damaged on arrival\" }"
+            },
+            "description": "Only for `delivered` orders. Transitions to `return_requested`."
+          }
+        },
+        {
+          "name": "GET /api/orders/admin (admin)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/admin?page=1&limit=20&status=",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "admin"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/orders/:id/status (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/orders/{{orderId}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"status\": \"shipped\", \"trackingNumber\": \"IND-TRK-123\" }"
+            },
+            "description": "Emits shipping-confirmation email when status becomes `shipped` with a trackingNumber."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET /api/users/me",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/users/me" }
+        },
+        {
+          "name": "PATCH /api/users/me",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/users/me",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Ankur\", \"phone\": \"+919999999999\" }"
+            }
+          }
+        },
+        {
+          "name": "POST /api/users/me/password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/users/me/password",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"currentPassword\": \"Str0ngP@ssw0rd!\", \"newPassword\": \"Str0ngerP@ss2!\" }"
+            }
+          }
+        },
+        {
+          "name": "GET /api/users/me/addresses",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/users/me/addresses" }
+        },
+        {
+          "name": "POST /api/users/me/addresses",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body.id) pm.collectionVariables.set('addressId', body.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/users/me/addresses",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"Home\",\n  \"fullName\": \"Ankur T\",\n  \"phone\": \"+919999999999\",\n  \"line1\": \"221B Baker St\",\n  \"city\": \"Pune\",\n  \"state\": \"MH\",\n  \"postalCode\": \"411001\",\n  \"country\": \"IN\",\n  \"isDefault\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/users/me/addresses/:id",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/users/me/addresses/{{addressId}}",
+            "body": { "mode": "raw", "raw": "{ \"label\": \"Primary\" }" }
+          }
+        },
+        {
+          "name": "DELETE /api/users/me/addresses/:id",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/users/me/addresses/{{addressId}}"
+          }
+        },
+        {
+          "name": "GET /api/users/me/wishlist",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/users/me/wishlist" }
+        },
+        {
+          "name": "POST /api/users/me/wishlist",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/users/me/wishlist",
+            "body": { "mode": "raw", "raw": "{ \"productId\": \"{{productId}}\" }" }
+          }
+        },
+        {
+          "name": "DELETE /api/users/me/wishlist/:productId",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/users/me/wishlist/{{productId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "GET /api/reviews?productId=",
+          "request": {
+            "method": "GET",
+            "auth": { "type": "noauth" },
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews?productId={{productId}}&page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews"],
+              "query": [
+                { "key": "productId", "value": "{{productId}}" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            },
+            "description": "Default: approved-only. Filter by productId. Paginated."
+          }
+        },
+        {
+          "name": "POST /api/reviews",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body._id) pm.collectionVariables.set('reviewId', body._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/reviews",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"rating\": 5,\n  \"title\": \"Beautiful\",\n  \"body\": \"Sturdy build and quick delivery.\"\n}"
+            },
+            "description": "`verifiedPurchase` is computed by checking the user's own orders. Status starts as `pending`."
+          }
+        },
+        {
+          "name": "GET /api/reviews/pending (admin)",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/reviews/pending" }
+        },
+        {
+          "name": "PATCH /api/reviews/:id/moderate (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/reviews/{{reviewId}}/moderate",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"status\": \"approved\", \"moderatorNote\": \"looks good\" }"
+            },
+            "description": "Approving recomputes the product's ratingAverage and ratingCount."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Coupons",
+      "item": [
+        {
+          "name": "POST /api/coupons/validate",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/coupons/validate",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"code\": \"WELCOME10\", \"cartTotal\": 1500 }"
+            },
+            "description": "**200:**\n```json\n{ \"code\": \"WELCOME10\", \"type\": \"percent\", \"value\": 10, \"discount\": 150 }\n```\n**400** when below min order, expired, or usage limit reached."
+          }
+        },
+        {
+          "name": "GET /api/coupons (admin)",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/coupons" }
+        },
+        {
+          "name": "POST /api/coupons (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body._id) pm.collectionVariables.set('couponId', body._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/coupons",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"WELCOME10\",\n  \"type\": \"percent\",\n  \"value\": 10,\n  \"minOrderAmount\": 500,\n  \"maxDiscount\": 500,\n  \"usageLimit\": 1000,\n  \"perUserLimit\": 1,\n  \"expiresAt\": \"2026-12-31T23:59:59.000Z\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/coupons/:id (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/coupons/{{couponId}}",
+            "body": { "mode": "raw", "raw": "{ \"isActive\": false }" }
+          }
+        },
+        {
+          "name": "DELETE /api/coupons/:id (admin)",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/coupons/{{couponId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "GET /api/admin/stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/stats?days=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "stats"],
+              "query": [{ "key": "days", "value": "30" }]
+            },
+            "description": "**200:** revenue, ordersCount, usersCount, newUsersCount, conversion, avgOrderValue, byStatus, dailyRevenue."
+          }
+        },
+        {
+          "name": "GET /api/admin/inventory-alerts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/inventory-alerts?threshold=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "inventory-alerts"],
+              "query": [{ "key": "threshold", "value": "5" }]
+            }
+          }
+        },
+        {
+          "name": "POST /api/admin/products/bulk",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/admin/products/bulk",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productIds\": [\"{{productId}}\"],\n  \"update\": { \"isFeatured\": true }\n}"
+            }
+          }
+        },
+        {
+          "name": "POST /api/admin/orders/bulk-status",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/admin/orders/bulk-status",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"orderIds\": [\"{{orderId}}\"], \"status\": \"shipped\" }"
+            }
+          }
+        },
+        {
+          "name": "GET /api/admin/users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/users?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "users"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments (scaffold, full in Phase 3C)",
+      "item": [
+        {
+          "name": "POST /api/payments/stripe/intent",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/payments/stripe/intent",
+            "body": { "mode": "raw", "raw": "{ \"orderId\": \"{{orderId}}\" }" },
+            "description": "Phase 3C — creates a Stripe Payment Intent for the order and returns `clientSecret`."
+          }
+        },
+        {
+          "name": "POST /api/payments/razorpay/order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/payments/razorpay/order",
+            "body": { "mode": "raw", "raw": "{ \"orderId\": \"{{orderId}}\" }" },
+            "description": "Phase 3C — creates a Razorpay order and returns `razorpayOrderId` + `amount`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks (scaffold, full in Phase 3C)",
+      "item": [
+        {
+          "name": "POST /api/webhooks/stripe",
+          "request": {
+            "method": "POST",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/api/webhooks/stripe",
+            "description": "Stripe posts raw JSON with `Stripe-Signature` header. Handled events: `payment_intent.succeeded`, `payment_intent.payment_failed`, `charge.refunded`."
+          }
+        },
+        {
+          "name": "POST /api/webhooks/razorpay",
+          "request": {
+            "method": "POST",
+            "auth": { "type": "noauth" },
+            "url": "{{baseUrl}}/api/webhooks/razorpay",
+            "description": "Razorpay posts JSON with `X-Razorpay-Signature` header. Handled events: `payment.captured`, `payment.failed`, `refund.processed`."
+          }
+        }
+      ]
+    }
+  ]
+}
