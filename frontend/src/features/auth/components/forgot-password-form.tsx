@@ -5,13 +5,15 @@ import { AuthFormShell } from '@/features/auth/components/auth-form-shell';
 import { AuthLayoutCard } from '@/features/auth/components/auth-layout-card';
 import { FormField } from '@/components/ui/form-field';
 import { Input } from '@/components/ui/input';
+import { authApi } from '@/lib/api';
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Enter a valid email address.');
@@ -19,13 +21,30 @@ export function ForgotPasswordForm() {
       return;
     }
     setError('');
-    setMessage('Reset instructions have been sent if an account exists for this email.');
-    setEmail('');
+    setSubmitting(true);
+    try {
+      await authApi.forgotPassword({ email });
+      setMessage('Reset instructions have been sent if an account exists for this email.');
+      setEmail('');
+    } catch {
+      // The endpoint always returns ok; if it didn't, surface a generic message.
+      setMessage('Reset instructions have been sent if an account exists for this email.');
+      setEmail('');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <AuthLayoutCard title="Forgot password" subtitle="Enter your email and we will send reset instructions.">
-      <AuthFormShell submitLabel="Send Reset Link" altText="Remembered your password?" altLinkLabel="Back to login" altLinkHref="/auth/login" onSubmit={onSubmit}>
+      <AuthFormShell
+        submitLabel={submitting ? 'Sending…' : 'Send Reset Link'}
+        submitDisabled={submitting}
+        altText="Remembered your password?"
+        altLinkLabel="Back to login"
+        altLinkHref="/auth/login"
+        onSubmit={onSubmit}
+      >
         <FormField id="forgotEmail" label="Email" required error={error} hint={message || 'Use the email associated with your account.'}>
           <Input id="forgotEmail" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
         </FormField>
