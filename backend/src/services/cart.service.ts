@@ -1,3 +1,4 @@
+import type { HydratedDocument } from "mongoose";
 import { CartModel, type Cart } from "../models/cart.model.js";
 import { ProductModel } from "../models/product.model.js";
 import { BadRequest, NotFound } from "../utils/errors.js";
@@ -18,7 +19,9 @@ export interface CartTotals {
   coupon: AppliedCoupon | null;
 }
 
-async function getOrCreateCart(userId: string): Promise<Cart> {
+type CartDoc = HydratedDocument<Cart>;
+
+async function getOrCreateCart(userId: string): Promise<CartDoc> {
   const existing = await CartModel.findOne({ userId });
   if (existing) return existing;
   return CartModel.create({ userId, items: [] });
@@ -62,7 +65,8 @@ export async function updateItem(userId: string, productId: string, quantity: nu
   if (!item) throw NotFound("Item not in cart");
 
   if (quantity === 0) {
-    cart.items = cart.items.filter((i) => String(i.productId) !== productId);
+    const idx = cart.items.findIndex((i) => String(i.productId) === productId);
+    if (idx >= 0) cart.items.splice(idx, 1);
   } else {
     const product = await ProductModel.findById(productId);
     if (!product) throw NotFound("Product not found");
@@ -76,9 +80,9 @@ export async function updateItem(userId: string, productId: string, quantity: nu
 
 export async function removeItem(userId: string, productId: string) {
   const cart = await getOrCreateCart(userId);
-  const before = cart.items.length;
-  cart.items = cart.items.filter((i) => String(i.productId) !== productId);
-  if (cart.items.length === before) throw NotFound("Item not in cart");
+  const idx = cart.items.findIndex((i) => String(i.productId) === productId);
+  if (idx < 0) throw NotFound("Item not in cart");
+  cart.items.splice(idx, 1);
   await cart.save();
   const totals = await computeTotals(cart);
   return { cart: cart.toObject(), totals };
@@ -107,7 +111,7 @@ export async function clearCart(userId: string) {
 }
 
 /** Server-authoritative totals. Clients should display these, never compute locally. */
-export async function computeTotals(cart: Cart): Promise<CartTotals> {
+export async function computeTotals(cart: Cart | CartDoc): Promise<CartTotals> {
   const itemCount = cart.items.reduce((n, i) => n + i.quantity, 0);
   const subtotal = cart.items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0);
   let coupon: AppliedCoupon | null = null;

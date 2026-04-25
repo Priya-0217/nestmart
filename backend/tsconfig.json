@@ -17,11 +17,7 @@
     "declaration": false,
     "sourceMap": true,
     "allowJs": false,
-    "types": ["node"],
-    "baseUrl": "src",
-    "paths": {
-      "@/*": ["*"]
-    }
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
