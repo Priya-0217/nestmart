@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, Inter } from 'next/font/google';
 import './globals.css';
 import { AppShell } from '@/components/layout/app-shell';
+import { Providers } from './providers';
 
 const display = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -59,7 +60,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className={`${display.variable} ${body.variable}`}>
-        <AppShell>{children}</AppShell>
+        <Providers>
+          <AppShell>{children}</AppShell>
+        </Providers>
       </body>
     </html>
   );
