@@ -52,7 +52,7 @@ nestmart/
 ## Milestone 3 progress
 
 - ✅ **Phase 3A — Backend API**: full MVC scaffold, Mongoose + Prisma schemas, every REST endpoint in the spec, Zod validation, centralized errors, pino logging, rate limiting, Postman collection, DBML schema doc.
-- ✅ **Phase 3B — Authentication (partial)**: JWT access + refresh with rotation, bcrypt (cost ≥ 12), email OTP (6-digit, 10-min TTL), password-reset links (30-min, single-use), session revocation on logout + password change, `requireAuth` + `requireRole`. **NextAuth.js on frontend + Google OAuth provider land in Phase 3B's second half.**
+- ✅ **Phase 3B — Authentication**: JWT access + refresh with rotation, bcrypt (cost ≥ 12), email OTP (6-digit, 10-min TTL), password-reset links (30-min, single-use), session revocation on logout + password change. NextAuth.js on the frontend with Credentials + Google providers, JWT-callback proactive refresh, typed `apiFetch<T>` client with retry-on-401, `/account/*` and `/checkout/*` protected by `withAuth` middleware. Vitest unit tests for `loginWithGoogle` (Prisma + google-auth-library mocked).
 - ⏳ **Phase 3C — Payments**: routes scaffolded with signature-safe raw-body mounting. Payment Intent and webhook logic land next.
 - ⏳ **Phase 3D — Email & CMS**: basic Nodemailer dispatch + template scaffolds present. MJML templates, HTML previews, and Sanity Studio are next.
 

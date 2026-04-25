@@ -142,6 +142,6 @@ Top-level mounts:
 
 ## Roadmap (what's still stubbed)
 
-- **Phase 3B**: NextAuth on frontend + Google OAuth provider wiring. Current auth endpoints work end-to-end; OAuth just needs the Google handler.
+- **Phase 3B**: ✅ done. `/auth/google` accepts Google ID tokens from NextAuth and returns our JWT pair. Frontend NextAuth route, typed API client, and `/account` + `/checkout` middleware live in `frontend/`.
 - **Phase 3C**: Stripe Payment Intents + Razorpay order creation, webhook handlers (signature verification already wired for raw-body mounting), COD finalization.
 - **Phase 3D**: MJML-rendered email templates + Sanity Studio + ISR-backed CMS pages.
