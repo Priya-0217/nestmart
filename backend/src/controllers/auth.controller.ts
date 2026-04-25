@@ -40,3 +40,12 @@ export async function resetPassword(req: Request, res: Response) {
   const result = await auth.resetPassword(req.body.token, req.body.password);
   res.json(result);
 }
+
+export async function googleLogin(req: Request, res: Response) {
+  const result = await auth.loginWithGoogle({
+    idToken: req.body.idToken,
+    ua: req.headers["user-agent"] ?? undefined,
+    ip: req.ip,
+  });
+  res.json(result);
+}

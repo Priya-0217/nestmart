@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { OAuth2Client } from "google-auth-library";
 import { AuthTokenPurpose, type User } from "@prisma/client";
 import { prisma } from "../config/prisma.js";
 import { env } from "../config/env.js";
@@ -177,6 +178,90 @@ export async function forgotPassword(email: string) {
   const link = `${env.CLIENT_ORIGIN}/auth/reset-password?token=${raw}`;
   await sendPasswordResetEmail(user.email, link);
   return { ok: true };
+}
+
+// Lazy singleton — constructed on first use so missing env in tests doesn't crash module load.
+let googleClient: OAuth2Client | null = null;
+function getGoogleClient(): OAuth2Client {
+  if (googleClient) return googleClient;
+  if (!env.GOOGLE_CLIENT_ID) {
+    throw BadRequest("Google sign-in is not configured on this server");
+  }
+  googleClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+  return googleClient;
+}
+
+export interface GoogleProfile {
+  sub: string;
+  email: string;
+  name?: string;
+  picture?: string;
+  email_verified?: boolean;
+}
+
+/** Verifies a Google ID token. Exposed for test injection via the verifier param. */
+export async function verifyGoogleIdToken(
+  idToken: string,
+  verifier: (idToken: string) => Promise<GoogleProfile> = defaultGoogleVerifier,
+): Promise<GoogleProfile> {
+  return verifier(idToken);
+}
+
+async function defaultGoogleVerifier(idToken: string): Promise<GoogleProfile> {
+  const ticket = await getGoogleClient().verifyIdToken({ idToken, audience: env.GOOGLE_CLIENT_ID });
+  const payload = ticket.getPayload();
+  if (!payload?.sub || !payload.email) throw Unauthorized("Invalid Google token");
+  return {
+    sub: payload.sub,
+    email: payload.email,
+    name: payload.name,
+    picture: payload.picture,
+    email_verified: payload.email_verified,
+  };
+}
+
+export async function loginWithGoogle(params: {
+  idToken: string;
+  ua?: string;
+  ip?: string;
+  verifier?: (idToken: string) => Promise<GoogleProfile>;
+}) {
+  const profile = await verifyGoogleIdToken(params.idToken, params.verifier);
+
+  // Find by googleId, fall back to email (so existing email accounts can link).
+  let user = await prisma.user.findFirst({
+    where: { OR: [{ googleId: profile.sub }, { email: profile.email }] },
+  });
+
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        email: profile.email,
+        name: profile.name ?? profile.email.split("@")[0],
+        googleId: profile.sub,
+        avatarUrl: profile.picture,
+        emailVerified: profile.email_verified ? new Date() : null,
+      },
+    });
+  } else if (!user.googleId) {
+    // Existing email account — link the Google id and mark email verified.
+    user = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        googleId: profile.sub,
+        avatarUrl: user.avatarUrl ?? profile.picture ?? null,
+        emailVerified: user.emailVerified ?? (profile.email_verified ? new Date() : null),
+      },
+    });
+  }
+
+  if (!user.isActive) throw Unauthorized("Account is disabled");
+
+  const tokens = issueTokens(user);
+  await persistSession(user.id, tokens.refreshToken, params.ua, params.ip);
+  await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } });
+
+  return { user: publicUser(user), ...tokens };
 }
 
 export async function resetPassword(rawToken: string, newPassword: string) {

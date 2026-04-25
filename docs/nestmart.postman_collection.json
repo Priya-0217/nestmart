@@ -109,6 +109,32 @@
           }
         },
         {
+          "name": "POST /api/auth/google",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body.accessToken) pm.collectionVariables.set('accessToken', body.accessToken);",
+                  "if (body.refreshToken) pm.collectionVariables.set('refreshToken', body.refreshToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/google",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"idToken\": \"<google_id_token_from_NextAuth>\" }"
+            },
+            "description": "Hand-off endpoint called by NextAuth after Google sign-in completes.\n\nVerifies the Google ID token via google-auth-library, finds-or-creates the Postgres User (linking by email if it pre-existed), and returns our JWT pair.\n\n**200:** same shape as `/auth/login`.\n**400** if `GOOGLE_CLIENT_ID` is unset on the server.\n**401** on invalid/expired ID token."
+          }
+        },
+        {
           "name": "POST /api/auth/refresh",
           "event": [
             {

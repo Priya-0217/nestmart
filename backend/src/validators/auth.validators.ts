@@ -32,3 +32,7 @@ export const verifyOtpSchema = z.object({
   email: z.string().email(),
   otp: z.string().regex(/^\d{6}$/, "OTP must be 6 digits"),
 });
+
+export const googleLoginSchema = z.object({
+  idToken: z.string().min(1),
+});
