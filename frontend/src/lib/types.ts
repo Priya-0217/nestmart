@@ -99,3 +99,28 @@ export type CheckoutPayment = {
   expiry: string;
   cvv: string;
 };
+
+export type CompletedOrderLine = {
+  productId: string;
+  variantId: string;
+  title: string;
+  variant: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+};
+
+export type CompletedOrder = {
+  id: string;
+  date: string;
+  status: OrderStatus;
+  itemCount: number;
+  contact: CheckoutContact;
+  shipping: CheckoutShipping;
+  lines: CompletedOrderLine[];
+  subtotal: number;
+  shippingFee: number;
+  tax: number;
+  total: number;
+  paymentLast4: string;
+};
