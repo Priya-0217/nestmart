@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { CheckoutSectionCard } from '@/features/checkout/components/checkout-section-card';
 import { CheckoutStepper, checkoutSteps } from '@/features/checkout/components/checkout-stepper';
 import { OrderReview } from '@/features/checkout/components/order-review';
@@ -12,9 +12,10 @@ import { RadioGroup } from '@/components/ui/radio-group';
 import { Select } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { getProductById, shippingRates } from '@/data/catalog';
-import { CheckoutContact, CheckoutPayment, CheckoutShipping } from '@/lib/types';
+import { CheckoutContact, CheckoutPayment, CheckoutShipping, CompletedOrderLine } from '@/lib/types';
 import { formatPrice } from '@/lib/utils';
 import { useCartStore } from '@/store/cart-store';
+import { useCheckoutStore } from '@/store/checkout-store';
 
 const initialContact: CheckoutContact = {
   email: '',
@@ -42,16 +43,17 @@ const initialPayment: CheckoutPayment = {
 type ErrorMap = Record<string, string>;
 
 export function CheckoutPageContent() {
+  const router = useRouter();
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
+  const setLastCompletedOrder = useCheckoutStore((state) => state.setLastCompletedOrder);
   const [step, setStep] = useState(0);
   const [contact, setContact] = useState<CheckoutContact>(initialContact);
   const [shipping, setShipping] = useState<CheckoutShipping>(initialShipping);
   const [payment, setPayment] = useState<CheckoutPayment>(initialPayment);
   const [errors, setErrors] = useState<ErrorMap>({});
-  const [success, setSuccess] = useState(false);
 
-  const lines = items
+  const lines: CompletedOrderLine[] = items
     .map((item) => {
       const product = getProductById(item.productId);
       const variant = product?.variants.find((option) => option.id === item.variantId);
@@ -59,13 +61,16 @@ export function CheckoutPageContent() {
         return null;
       }
       return {
+        productId: product.id,
+        variantId: variant.id,
         title: product.name,
         variant: variant.name,
         quantity: item.quantity,
+        unitPrice: variant.price,
         total: variant.price * item.quantity
       };
     })
-    .filter(Boolean);
+    .filter((line): line is CompletedOrderLine => Boolean(line));
 
   const subtotal = lines.reduce((sum, line) => sum + (line?.total ?? 0), 0);
   const shippingFee = lines.length > 0 ? shippingRates[shipping.shippingMethod] : 0;
@@ -104,21 +109,29 @@ export function CheckoutPageContent() {
       return;
     }
 
+    const cleanCardNumber = payment.cardNumber.replace(/\s/g, '');
+    const orderDate = new Date().toISOString();
+    const total = subtotal + shippingFee + tax;
+
+    setLastCompletedOrder({
+      id: `NM-${Date.now().toString().slice(-6)}`,
+      date: orderDate,
+      status: 'Processing',
+      itemCount: lines.reduce((sum, line) => sum + line.quantity, 0),
+      contact,
+      shipping,
+      lines,
+      subtotal,
+      shippingFee,
+      tax,
+      total,
+      paymentLast4: cleanCardNumber.slice(-4)
+    });
+
     clearCart();
-    setSuccess(true);
+    router.push('/order-confirmation');
   }
 
-  if (success) {
-    return (
-      <EmptyState
-        title="Order placed successfully"
-        description="A confirmation email is on the way. You can track this order from your account dashboard."
-        ctaLabel="Go to Account"
-        ctaHref="/account"
-        icon={<CheckCircle2 className="h-8 w-8" />}
-      />
-    );
-  }
 
   if (lines.length === 0) {
     return <EmptyState title="Checkout is empty" description="Add products to your cart to begin checkout." ctaLabel="Browse Products" ctaHref="/products" />;
