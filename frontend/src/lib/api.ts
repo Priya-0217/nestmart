@@ -176,3 +176,46 @@ export const productsApi = {
   get: (id: string) => apiFetch<ProductSummary>(`/api/products/${id}`),
   related: (id: string) => apiFetch<{ items: ProductSummary[] }>(`/api/products/${id}/related`)
 };
+
+export interface AdminDashboardStats {
+  range: { days: number; from: string; to: string };
+  revenue: number;
+  ordersCount: number;
+  usersCount: number;
+  newUsersCount: number;
+  conversion: number;
+  avgOrderValue: number;
+  byStatus: Array<{ status: string; count: number }>;
+  dailyRevenue: Array<{ date: string; revenue: number; orders: number }>;
+}
+
+export interface AdminInventoryAlert {
+  _id: string;
+  slug: string;
+  title: string;
+  stock: number;
+  price: number;
+  images: string[];
+}
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name: string | null;
+  role: 'customer' | 'manager' | 'admin';
+  isActive: boolean;
+  emailVerified: boolean;
+  createdAt: string;
+  lastLoginAt: string | null;
+}
+
+export const adminApi = {
+  stats: (days = 30) => apiFetch<AdminDashboardStats>(`/api/admin/stats?days=${days}`),
+  inventoryAlerts: (threshold = 10) =>
+    apiFetch<{ threshold: number; items: AdminInventoryAlert[] }>(`/api/admin/inventory-alerts?threshold=${threshold}`),
+  users: (page = 1, limit = 10) => apiFetch<Paginated<AdminUser>>(`/api/admin/users?page=${page}&limit=${limit}`),
+  bulkUpdateProducts: (input: { productIds: string[]; update: Record<string, unknown> }) =>
+    apiFetch<{ matched: number; modified: number }>('/api/admin/products/bulk', { method: 'POST', body: input }),
+  bulkUpdateOrderStatus: (input: { orderIds: string[]; status: string }) =>
+    apiFetch<{ matched: number; modified: number }>('/api/admin/orders/bulk-status', { method: 'POST', body: input })
+};

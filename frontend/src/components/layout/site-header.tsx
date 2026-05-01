@@ -20,6 +20,7 @@ const mainLinks = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Shop' },
   { href: '/account', label: 'Account' },
+  { href: '/admin', label: 'Admin' },
   { href: '/checkout', label: 'Checkout' }
 ];
 
