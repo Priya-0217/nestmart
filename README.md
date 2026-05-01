@@ -1,69 +1,65 @@
-# NestMart
+# NestMart Milestone 2 Starter
 
-Production-grade e-commerce platform. Next.js 14 frontend, Express + TypeScript backend, Mongo + Postgres + Sanity.
+This repository is organized into two separate folders as requested:
 
-| App | Stack | Path |
-| --- | --- | --- |
-| Frontend | Next.js 14 App Router, Tailwind, Zustand, Framer Motion | [`frontend/`](./frontend) |
-| Backend API | Express + TypeScript, Mongoose, Prisma, Zod, pino | [`backend/`](./backend) |
-| CMS | Sanity Studio (Phase 3D) | `studio/` — coming in Phase 3D |
+- `frontend/` → Next.js 14 + React + TypeScript + Tailwind CSS + Framer Motion
+- `backend/` → Node.js + Express.js REST API
 
----
+## Quick Start
 
-## Run the full stack in under 5 minutes
-
-**Prereqs:** Node 20+, npm, Docker Desktop.
+### 1) Frontend
 
 ```bash
-# 1. Databases (Mongo 7 + Postgres 16)
-docker compose up -d
+cd frontend
+npm install
+npm run dev
+```
 
-# 2. Backend
+Runs on `http://localhost:3000`.
+
+### 2) Backend
+
+```bash
 cd backend
 npm install
 cp .env.example .env
-npm run prisma:generate
-npm run prisma:migrate        # creates Postgres tables
-npm run dev                   # http://localhost:5000
-
-# 3. Frontend (new terminal)
-cd frontend
-npm install
-cp .env.example .env.local
-npm run dev                   # http://localhost:3000
+npm run dev
 ```
 
-Health check: `curl http://localhost:5000/api/health/ready` — both `mongo` and `postgres` should be `true`.
+Runs on `http://localhost:5000`.
 
-## Monorepo layout
+## Milestone 2 coverage
 
-```
-nestmart/
-  docker-compose.yml                local Mongo + Postgres
-  docs/
-    nestmart.postman_collection.json
-    db-schema.md                    DBML for both stores
-    email-templates/                rendered previews (Phase 3D)
-  frontend/                         Next.js 14 app
-  backend/                          Express API (TypeScript)
-  studio/                           Sanity Studio (Phase 3D)
-```
+- Animated, visually attractive UI with gradients, shadows, hover motion, and scroll-in animations.
+- Core pages scaffolded: homepage, product listing, cart, account dashboard.
+- Reusable UI components: navbar, hero, product cards, animation shell.
+- REST API starter: health endpoint + products endpoints.
 
-## Milestone 3 progress
+## Acceptance criteria
 
-- ✅ **Phase 3A — Backend API**: full MVC scaffold, Mongoose + Prisma schemas, every REST endpoint in the spec, Zod validation, centralized errors, pino logging, rate limiting, Postman collection, DBML schema doc.
-- ✅ **Phase 3B — Authentication**: JWT access + refresh with rotation, bcrypt (cost ≥ 12), email OTP (6-digit, 10-min TTL), password-reset links (30-min, single-use), session revocation on logout + password change. NextAuth.js on the frontend with Credentials + Google providers, JWT-callback proactive refresh, typed `apiFetch<T>` client with retry-on-401, `/account/*` and `/checkout/*` protected by `withAuth` middleware. Vitest unit tests for `loginWithGoogle` (Prisma + google-auth-library mocked).
-- ⏳ **Phase 3C — Payments**: routes scaffolded with signature-safe raw-body mounting. Payment Intent and webhook logic land next.
-- ⏳ **Phase 3D — Email & CMS**: basic Nodemailer dispatch + template scaffolds present. MJML templates, HTML previews, and Sanity Studio are next.
+### Accessibility requirements
 
-See [backend/README.md](./backend/README.md) for per-service docs and setup walkthroughs for Stripe, Razorpay, Google OAuth, and Mailtrap.
+- All interactive elements are keyboard-navigable using `Tab` and activatable with `Enter` or `Space`.
+- ARIA labels are present on all icon-only buttons, including cart, wishlist, and close controls.
+- Body text color contrast ratio is at least 4.5:1 (WCAG AA).
+- All focusable elements include a visible `:focus-visible` ring.
+- Form fields have associated labels and are not placeholder-only.
+- A skip-to-main-content link is present in the navbar/header.
+- All product images define meaningful `alt` text.
 
-## Docs
+## Animation spec (Framer Motion)
 
-- **API reference**: [docs/nestmart.postman_collection.json](./docs/nestmart.postman_collection.json) (import into Postman)
-- **DB schema**: [docs/db-schema.md](./docs/db-schema.md) (paste the DBML block into [dbdiagram.io](https://dbdiagram.io))
-- **Backend details**: [backend/README.md](./backend/README.md)
+- Page transition: fade + slide up, duration `0.3s`, ease `easeOut`.
+- Product card hover: `scale(1.02)` + elevated shadow, duration `0.2s`.
+- Cart drawer: slide in from right, duration `0.35s`, spring transition.
+- Toast notification: slide in from top-right, duration `0.25s`.
+- Skeleton loader: shimmer animation with `1.5s` looping interval.
+- Add-to-cart button: success pulse animation, duration `0.4s`.
+- Hero banner: staggered fade-in with child delay `0.1s` per item.
+- Reduced motion: when `prefers-reduced-motion` is enabled, disable all non-essential animations.
 
-## License
+## API endpoints
 
-Private / proprietary (NestMart internal).
+- `GET /api/health`
+- `GET /api/products`
+- `GET /api/products/:id`
