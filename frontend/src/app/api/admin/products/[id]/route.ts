@@ -4,6 +4,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { ProductModel } from '@/models/product';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   await connectToDatabase();

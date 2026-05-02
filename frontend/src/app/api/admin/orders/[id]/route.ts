@@ -4,6 +4,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { OrderModel, orderStatuses } from '@/models/order';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   await connectToDatabase();

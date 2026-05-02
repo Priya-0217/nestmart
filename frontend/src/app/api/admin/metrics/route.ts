@@ -4,6 +4,7 @@ import { ProductModel } from '@/models/product';
 import { OrderModel } from '@/models/order';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   await connectToDatabase();

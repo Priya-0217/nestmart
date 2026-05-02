@@ -3,6 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { OrderModel } from '@/models/order';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   await connectToDatabase();
