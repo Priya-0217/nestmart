@@ -1,4 +1,7 @@
+'use client';
+
 import { ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { Container } from '@/components/layout/container';
@@ -11,6 +14,18 @@ type AppShellProps = {
 };
 
 export function AppShell({ children, fullWidth }: AppShellProps) {
+  const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith('/admin');
+
+  if (isAdminRoute) {
+    return (
+      <>
+        <ToastViewport />
+        <main className="min-h-dvh">{children}</main>
+      </>
+    );
+  }
+
   return (
     <>
       <SiteHeader />

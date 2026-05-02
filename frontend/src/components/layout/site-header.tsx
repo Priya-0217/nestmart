@@ -161,7 +161,7 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle className="h-9 w-9 p-2 hidden md:inline-flex" />
-          <Link href="/auth/login" className="icon-button focus-ring hidden rounded-full p-2 hover:bg-muted md:inline-flex" aria-label="Account">
+          <Link href="/account" className="icon-button focus-ring hidden rounded-full p-2 hover:bg-muted md:inline-flex" aria-label="Account">
             <UserRound className="h-5 w-5 text-foreground/80" />
           </Link>
           <motion.div whileTap={{ scale: 0.96 }}>

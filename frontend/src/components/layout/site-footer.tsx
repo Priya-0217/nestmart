@@ -1,3 +1,5 @@
+ 'use client';
+
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { Container } from '@/components/layout/container';
