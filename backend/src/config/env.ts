@@ -1,12 +1,15 @@
 import "dotenv/config";
 import { z } from "zod";
 
+const stripOuterQuotes = (value: string) => value.trim().replace(/^['\"]|['\"]$/g, "");
+
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(5000),
   CLIENT_ORIGIN: z
     .string()
     .default("http://localhost:3000")
+    .transform(stripOuterQuotes)
     .refine(
       (value) =>
         value
@@ -24,8 +27,16 @@ const envSchema = z.object({
       "CLIENT_ORIGIN must be a valid URL or a comma-separated list of valid URLs",
     ),
 
-  MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
-  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+  MONGODB_URI: z
+    .string()
+    .min(1, "MONGODB_URI is required")
+    .transform(stripOuterQuotes)
+    .refine((value) => /^mongodb(\+srv)?:\/\//i.test(value), "MONGODB_URI must be a valid MongoDB URI"),
+  DATABASE_URL: z
+    .string()
+    .min(1, "DATABASE_URL is required")
+    .transform(stripOuterQuotes)
+    .refine((value) => /^postgres(ql)?:\/\//i.test(value), "DATABASE_URL must be a valid Postgres URI"),
 
   JWT_ACCESS_SECRET: z.string().min(16).default("dev-access-secret-change-me-please"),
   JWT_REFRESH_SECRET: z.string().min(16).default("dev-refresh-secret-change-me-please"),
@@ -38,14 +49,14 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().int().positive().default(2525),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  MAIL_FROM: z.string().default("NestMart <no-reply@nestmart.dev>"),
+  MAIL_FROM: z.string().default("NestMart <no-reply@nestmart.dev>").transform(stripOuterQuotes),
 
-  GOOGLE_CLIENT_ID: z.string().optional(),
-  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  GOOGLE_CLIENT_ID: z.string().transform(stripOuterQuotes).optional(),
+  GOOGLE_CLIENT_SECRET: z.string().transform(stripOuterQuotes).optional(),
 
-  CLOUDINARY_CLOUD_NAME: z.string().optional(),
-  CLOUDINARY_API_KEY: z.string().optional(),
-  CLOUDINARY_API_SECRET: z.string().optional(),
+  CLOUDINARY_CLOUD_NAME: z.string().transform(stripOuterQuotes).optional(),
+  CLOUDINARY_API_KEY: z.string().transform(stripOuterQuotes).optional(),
+  CLOUDINARY_API_SECRET: z.string().transform(stripOuterQuotes).optional(),
 
   STRIPE_SECRET_KEY: z.string().default("sk_test_mock"),
   STRIPE_WEBHOOK_SECRET: z.string().default("whsec_mock"),

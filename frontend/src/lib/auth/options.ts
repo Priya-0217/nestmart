@@ -156,8 +156,15 @@ export const authOptions: NextAuthOptions = {
 
       // Access token has expired, try to update it
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-        const response = await fetch(`${apiUrl}/api/auth/refresh`, {
+        const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const normalizedApiUrl = rawApiUrl
+          .trim()
+          .replace(/^['\"]|['\"]$/g, "")
+          .replace(/\/+$/, "");
+        const refreshUrl = normalizedApiUrl.endsWith("/api")
+          ? `${normalizedApiUrl}/auth/refresh`
+          : `${normalizedApiUrl}/api/auth/refresh`;
+        const response = await fetch(refreshUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ refreshToken: token.refreshToken }),
