@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: nestmart-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install; npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: https://nestmart-sy4h.onrender.com
+      - key: NEXTAUTH_URL
+        sync: false
+      - key: NEXTAUTH_SECRET
+        generateValue: true

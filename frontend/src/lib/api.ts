@@ -1,6 +1,9 @@
 import { getSession, signOut } from 'next-auth/react';
 
-const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000';
+const DEFAULT_API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://nestmart-sy4h.onrender.com'
+  : 'http://localhost:5000';
+const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL ?? DEFAULT_API_URL;
 const API_URL = RAW_API_URL.replace(/\/+$/, '');
 const API_HOST = API_URL.endsWith('/api') ? API_URL.slice(0, -4) : API_URL;
 
