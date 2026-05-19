@@ -101,9 +101,11 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
     res = await fetch(url, init);
   } catch (err) {
     console.error(`API Fetch Network Error [${url}]:`, err);
-    // During build time on Render/Vercel, we don't want to crash the prerendering if the backend is unreachable.
-    // However, on localhost, we should still throw so the developer knows there is a connection issue.
-    if (typeof window === 'undefined' && process.env.NODE_ENV === 'production') {
+    // During build time on Render/Vercel, we don't want to crash the prerendering if the backend is unreachable for GET requests.
+    // However, for POST/PUT/DELETE or at runtime, we should still throw so the logic handles it correctly.
+    if (typeof window === 'undefined' && 
+        process.env.NODE_ENV === 'production' && 
+        (!options.method || options.method.toUpperCase() === 'GET')) {
       // Return a safe empty structure for paginated results or objects
       return { items: [], pagination: { total: 0, page: 1, limit: 10, totalPages: 0 } } as unknown as T;
     }
