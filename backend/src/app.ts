@@ -13,7 +13,21 @@ const app = express();
 
 app.set("trust proxy", 1);
 app.use(helmet());
-app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
+
+// Support multiple origins in CLIENT_ORIGIN (comma-separated)
+const allowedOrigins = env.CLIENT_ORIGIN.split(',').map(o => o.trim());
+app.use(cors({ 
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl) or if origin is in whitelist
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }, 
+  credentials: true 
+}));
+
 app.use(cookieParser());
 app.use(pinoHttp({ logger }));
 
