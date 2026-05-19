@@ -7,8 +7,8 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json && mkdir -p dist/emails && cp src/emails/*.mjml dist/emails/ 2>/dev/null || true",
-    "start": "node dist/server.js",
+    "build": "prisma generate && tsc -p tsconfig.json && mkdir -p dist/emails && cp src/emails/*.mjml dist/emails/ 2>/dev/null || true",
+    "start": "prisma migrate deploy && node dist/server.js",
     "lint": "eslint \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "prisma:generate": "prisma generate",
@@ -41,6 +41,7 @@
     "razorpay": "^2.9.6",
     "stripe": "^22.1.1",
     "zod": "^3.23.8",
+    "prisma": "^5.22.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.17",
@@ -51,7 +52,6 @@
     "@types/nodemailer": "^6.4.16"
   },
   "devDependencies": {
-    "prisma": "^5.22.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "vitest": "^2.1.4"

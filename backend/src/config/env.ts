@@ -4,7 +4,25 @@ import { z } from "zod";
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(5000),
-  CLIENT_ORIGIN: z.string().url().default("http://localhost:3000"),
+  CLIENT_ORIGIN: z
+    .string()
+    .default("http://localhost:3000")
+    .refine(
+      (value) =>
+        value
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean)
+          .every((origin) => {
+            try {
+              new URL(origin);
+              return true;
+            } catch {
+              return false;
+            }
+          }),
+      "CLIENT_ORIGIN must be a valid URL or a comma-separated list of valid URLs",
+    ),
 
   MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
