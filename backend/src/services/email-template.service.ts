@@ -18,11 +18,27 @@ export async function renderMjmlTemplate(
   variables: Record<string, any>
 ): Promise<string> {
   try {
-    const templatePath = path.join(__dirname, `${templateName}.mjml`);
+    // Try both src/emails and the local directory (for production dist structure)
+    const possiblePaths = [
+      path.join(__dirname, "..", "emails", `${templateName}.mjml`),
+      path.join(__dirname, `${templateName}.mjml`),
+    ];
 
-    if (!fs.existsSync(templatePath)) {
-      logger.warn({ templatePath }, "MJML template not found, returning fallback HTML");
-      return `<p>Hello, ${variables.name || "there"}!</p>`;
+    let templatePath = "";
+    for (const p of possiblePaths) {
+      if (fs.existsSync(p)) {
+        templatePath = p;
+        break;
+      }
+    }
+
+    if (!templatePath) {
+      logger.warn({ templateName }, "MJML template not found, returning fallback HTML");
+      // Improved fallback that actually includes the variables for critical emails
+      if (templateName === "otp") {
+        return `<p>Your NestMart verification code is: <strong>${variables.otp}</strong></p><p>It expires in 10 minutes.</p>`;
+      }
+      return `<p>Hello, ${variables.name || "there"}!</p><p>This is a notification from NestMart.</p>`;
     }
 
     let mjmlContent = fs.readFileSync(templatePath, "utf-8");
