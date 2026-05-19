@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { Breadcrumb } from '@/features/catalog/components/breadcrumb';
 import { ProductGallery } from '@/features/product/components/product-gallery';
@@ -15,8 +16,6 @@ type ProductDetailPageProps = {
     slug: string;
   };
 };
-
-export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
   try {
@@ -36,6 +35,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+  noStore();
   try {
     const rawProduct = await productsApi.get(params.slug, { cache: 'no-store' });
     const [relatedResponse, browsePoolResponse] = await Promise.all([

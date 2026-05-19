@@ -98,6 +98,10 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
     res = await fetch(url, init);
   } catch (err) {
     console.error(`API Fetch Network Error [${url}]:`, err);
+    // During build time, we don't want to crash the prerendering
+    if (typeof window === 'undefined') {
+      return {} as T;
+    }
     throw new ApiFetchError({
       status: 0,
       code: 'NETWORK_ERROR',

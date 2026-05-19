@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import nextDynamic from 'next/dynamic';
+import { unstable_noStore as noStore } from 'next/cache';
+import dynamic from 'next/dynamic';
 import { heroSlides, homeCollections, homeFeatures, testimonials } from '@/data/catalog';
 import { productsApi, categoriesApi, reviewsApi, type ProductSummary, type CategoryTreeItem } from '@/lib/api';
 import { Product, Testimonial } from '@/lib/types';
@@ -11,27 +12,25 @@ import { ScrollReveal } from '@/components/motion/scroll-reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { AmbientDotPattern } from '@/components/ui/ambient-dot-pattern';
 
-const PersonalizedShelves = nextDynamic(
+const PersonalizedShelves = dynamic(
   () => import('@/features/home/components/personalized-shelves').then((m) => ({ default: m.PersonalizedShelves })),
   { ssr: false }
 );
-const CollectionStrip = nextDynamic(() =>
+const CollectionStrip = dynamic(() =>
   import('@/features/home/components/collection-strip').then((m) => ({ default: m.CollectionStrip }))
 );
-const PromoVideoText = nextDynamic(() =>
+const PromoVideoText = dynamic(() =>
   import('@/features/home/components/promo-video-text').then((m) => ({ default: m.PromoVideoText }))
 );
-const FeatureGrid = nextDynamic(() =>
+const FeatureGrid = dynamic(() =>
   import('@/features/home/components/feature-grid').then((m) => ({ default: m.FeatureGrid }))
 );
-const ReviewMarquee = nextDynamic(() =>
+const ReviewMarquee = dynamic(() =>
   import('@/features/home/components/review-marquee').then((m) => ({ default: m.ReviewMarquee }))
 );
-const NewsletterCta = nextDynamic(() =>
+const NewsletterCta = dynamic(() =>
   import('@/features/home/components/newsletter-cta').then((m) => ({ default: m.NewsletterCta }))
 );
-
-export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -43,6 +42,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
+  noStore();
   const [
     productsData,
     featuredProductsData,

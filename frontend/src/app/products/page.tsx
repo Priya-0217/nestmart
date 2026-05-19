@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import { Suspense } from 'react';
 import { categoriesApi, productsApi } from '@/lib/api';
 import { ProductsPageContent } from '@/features/catalog/components/products-page-content';
@@ -18,8 +19,6 @@ function buildCategoryMap(nodes: CategoryTreeItem[]): Record<string, string> {
   return map;
 }
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'Products',
   description: 'Browse NestMart products with category filters, price and rating controls, and sorting.'
@@ -35,6 +34,7 @@ type ProductsPageProps = {
 };
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  noStore();
   const sortMap: Record<string, string> = {
     'featured': 'popular',
     'price-asc': 'price-asc',

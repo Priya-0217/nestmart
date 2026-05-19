@@ -1,9 +1,8 @@
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 import { ProductsPageContent } from '@/features/catalog/components/products-page-content';
 import { categoriesApi, productsApi } from '@/lib/api';
 import { Product } from '@/lib/types';
-
-export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Search Results',
@@ -17,6 +16,7 @@ type SearchPageProps = {
 };
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
+  noStore();
   const query = searchParams.q || '';
   const [{ items }, { items: categories }] = await Promise.all([
     productsApi.list({ q: query, limit: 60 }, { cache: 'no-store' }),
