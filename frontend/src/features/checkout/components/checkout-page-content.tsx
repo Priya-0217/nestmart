@@ -594,9 +594,10 @@ export function CheckoutPageContent() {
 
               {!totals?.coupon && (
                 <div className="mb-6 space-y-3">
-                  <FormField label="Promo Code" required={false}>
+                  <FormField id="promo-code" label="Promo Code" required={false}>
                     <div className="flex gap-2">
                       <Input
+                        id="promo-code"
                         placeholder="Enter coupon code"
                         value={couponCode}
                         onChange={(e) => {
