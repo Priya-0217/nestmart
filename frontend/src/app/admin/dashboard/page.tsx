@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, BadgeDollarSign, MousePointerClick, ReceiptText, RefreshCw, Users } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatPrice } from '@/lib/utils';
@@ -140,7 +141,15 @@ export default function AdminDashboardPage() {
                   <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: 'rgb(100 116 139)' }} />
                   <YAxis yAxisId="left" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: 'rgb(100 116 139)' }} />
                   <YAxis yAxisId="right" orientation="right" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: 'rgb(100 116 139)' }} />
-                  <Tooltip formatter={(value: any, name: string) => [name === 'revenue' ? formatPrice(value) : value, name === 'revenue' ? 'Revenue' : 'Orders']} />
+                  <Tooltip
+                    formatter={(value: ValueType | undefined, name: NameType | undefined) => {
+                      const isRevenue = name === 'revenue';
+                      const label = isRevenue ? 'Revenue' : 'Orders';
+                      const numValue = typeof value === 'number' ? value : Number(value || 0);
+                      const displayValue = isRevenue ? formatPrice(numValue) : numValue;
+                      return [displayValue, label];
+                    }}
+                  />
                   <Area yAxisId="left" type="monotone" dataKey="revenue" stroke="#1A56DB" fill="url(#revenueFill)" strokeWidth={2.5} />
                   <Area yAxisId="right" type="monotone" dataKey="orders" stroke="#F59E0B" fill="url(#ordersFill)" strokeWidth={2.5} />
                 </AreaChart>
@@ -178,7 +187,7 @@ export default function AdminDashboardPage() {
           <h3 className="text-lg font-semibold text-foreground">Operator shortcuts</h3>
           <p className="text-sm text-foreground/60">Frequently used high-impact admin actions.</p>
           <div className="mt-4 space-y-2">
-            {adminShortcuts.filter(s => s.label !== 'Run Sales Report').map((item) => {
+            {adminShortcuts.map((item) => {
               const Icon = item.icon;
               return (
                 <Link key={item.href} href={item.href} className="group flex items-center justify-between rounded-2xl border border-border/70 bg-card px-4 py-3 hover:border-primary/35 hover:bg-primary/5">
