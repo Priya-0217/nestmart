@@ -24,7 +24,7 @@ export function ProductList({ products }: { products: Product[] }) {
               {product.name}
             </Link>
             <p className="text-xs text-foreground/55">{product.category}</p>
-            <RatingStars rating={product.ratingAverage} reviewCount={product.ratingCount} />
+            <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
             <PriceTag price={product.price} compareAtPrice={product.compareAtPrice} />
             <p className="line-clamp-2 text-sm text-foreground/70">{product.description}</p>
           </div>

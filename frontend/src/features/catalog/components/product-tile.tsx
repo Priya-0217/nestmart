@@ -132,7 +132,7 @@ export function ProductTile({ product }: ProductTileProps) {
             <h3 className="line-clamp-2 text-base font-semibold text-foreground">{product.name}</h3>
           </Link>
           <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={TRANSITION_FAST}>
-            <RatingStars rating={product.ratingAverage} reviewCount={product.ratingCount} />
+            <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
           </motion.div>
           <div className="mt-auto flex items-center justify-between gap-3 pt-2">
             <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ ...TRANSITION_FAST, delay: 0.05 }}>

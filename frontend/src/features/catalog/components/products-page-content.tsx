@@ -147,7 +147,7 @@ export function ProductsPageContent({ products, initialCategory, initialQuery, c
       const matchesCategory = filters.categories.length > 0 ? filters.categories.includes(product.category) : true;
       const matchesBrand = filters.brands.length > 0 ? filters.brands.includes(product.brand) : true;
       const matchesTag = filters.tags.length > 0 ? filters.tags.includes(product.tag) : true;
-      const matchesRating = product.ratingAverage >= filters.minRating;
+      const matchesRating = product.rating >= filters.minRating;
       const matchesStock = filters.inStockOnly ? product.stock > 0 : true;
       const matchesPrice = product.price >= filters.minPrice && product.price <= filters.maxPrice;
       return matchesQuery && matchesCategory && matchesBrand && matchesTag && matchesRating && matchesStock && matchesPrice;
@@ -160,7 +160,7 @@ export function ProductsPageContent({ products, initialCategory, initialQuery, c
         case 'price-desc':
           return b.price - a.price;
         case 'rating-desc':
-          return b.ratingAverage - a.ratingAverage;
+          return b.rating - a.rating;
         case 'newest':
           return b.id.localeCompare(a.id);
         case 'featured':

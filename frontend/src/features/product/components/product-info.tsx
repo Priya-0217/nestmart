@@ -40,8 +40,8 @@ export function ProductInfo({ product }: { product: any }) {
 
   const productId = product._id || product.id;
   const productName = product.title || product.name;
-  const ratingValue = Number.isFinite(product.ratingAverage) ? Number(product.ratingAverage) : 0;
-  const reviewCount = Number.isFinite(product.ratingCount) ? Number(product.ratingCount) : 0;
+  const ratingValue = Number.isFinite(product.rating) ? Number(product.rating) : (Number.isFinite(product.ratingAverage) ? Number(product.ratingAverage) : 0);
+  const reviewCount = Number.isFinite(product.reviewCount) ? Number(product.reviewCount) : (Number.isFinite(product.ratingCount) ? Number(product.ratingCount) : 0);
 
   useEffect(() => {
     trackProductView(productId, String(product.category?.name || product.category || 'General'));
