@@ -18,8 +18,12 @@ const body = Inter({
   display: 'swap'
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://nestmart.example.com');
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nestmart.example.com'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'NestMart | Curated Home Essentials',
     template: '%s | NestMart'
@@ -32,7 +36,7 @@ export const metadata: Metadata = {
     title: 'NestMart | Curated Home Essentials',
     description: 'Discover design-led furniture and decor with a smooth ecommerce flow.',
     type: 'website',
-    url: 'https://nestmart.example.com',
+    url: siteUrl,
     siteName: 'NestMart'
   },
   twitter: {
