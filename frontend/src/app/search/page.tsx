@@ -3,6 +3,8 @@ import { ProductsPageContent } from '@/features/catalog/components/products-page
 import { categoriesApi, productsApi } from '@/lib/api';
 import { Product } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Search Results',
   description: 'Browse all products that match your search with advanced filters and sorting.'

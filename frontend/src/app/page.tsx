@@ -31,6 +31,8 @@ const NewsletterCta = dynamic(() =>
   import('@/features/home/components/newsletter-cta').then((m) => ({ default: m.NewsletterCta }))
 );
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Home',
   description: 'Shop curated furniture, decor, and home essentials with NestMart.',

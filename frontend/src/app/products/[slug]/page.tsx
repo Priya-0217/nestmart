@@ -16,6 +16,8 @@ type ProductDetailPageProps = {
   };
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
   try {
     const product = await productsApi.get(params.slug, { cache: 'no-store' });

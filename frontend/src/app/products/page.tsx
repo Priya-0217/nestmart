@@ -18,6 +18,8 @@ function buildCategoryMap(nodes: CategoryTreeItem[]): Record<string, string> {
   return map;
 }
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Products',
   description: 'Browse NestMart products with category filters, price and rating controls, and sorting.'
