@@ -14,6 +14,7 @@ export function VariantPicker({ variants, activeVariantId, onChange }: VariantPi
       <div className="grid gap-2 sm:grid-cols-2">
         {variants.map((variant) => {
           const selected = variant.id === activeVariantId;
+          const stock = variant.stock ?? 0;
           return (
             <button
               key={variant.id}
@@ -28,8 +29,8 @@ export function VariantPicker({ variants, activeVariantId, onChange }: VariantPi
                 <span className="block text-[11px] uppercase tracking-wider text-foreground/50">{variant.size} • {variant.sku}</span>
               </span>
               <span className="inline-flex items-center gap-2 text-xs font-medium text-foreground/70">
-                <span className={cn("h-2 w-2 rounded-full", variant.stock > 0 ? "bg-emerald-500" : "bg-red-500")} />
-                {variant.stock} left
+                <span className={cn("h-2 w-2 rounded-full", stock > 0 ? "bg-emerald-500" : "bg-red-500")} />
+                {stock} left
               </span>
             </button>
           );
