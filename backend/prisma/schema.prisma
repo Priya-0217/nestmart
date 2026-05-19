@@ -1,0 +1,101 @@
+// NestMart Postgres schema — users, auth, sessions, addresses, tokens.
+// Product / order / review data lives in MongoDB (Mongoose). See src/models/.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  customer
+  manager
+  admin
+}
+
+enum AuthTokenPurpose {
+  email_verification
+  password_reset
+  otp
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  emailVerified   DateTime?
+  passwordHash    String?
+  name            String?
+  avatarUrl       String?
+  phone           String?
+  role            UserRole  @default(customer)
+  googleId        String?   @unique
+  isActive        Boolean   @default(true)
+  lastLoginAt     DateTime?
+  primaryAddress1Id String?
+  primaryAddress2Id String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  addresses       Address[]
+  sessions        Session[]
+  authTokens      AuthToken[]
+
+  @@index([role])
+}
+
+model Address {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label         String?  // "Home", "Work"
+  fullName      String
+  phone         String
+  line1         String
+  line2         String?
+  city          String
+  state         String
+  postalCode    String
+  country       String   @default("IN")
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Session {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshTokenHash String   @unique  // sha256 of the refresh token
+  userAgent        String?
+  ip               String?
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  createdAt        DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model AuthToken {
+  id         String            @id @default(cuid())
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose    AuthTokenPurpose
+  tokenHash  String            // sha256 of the token or OTP code
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime          @default(now())
+
+  @@index([userId, purpose])
+  @@index([expiresAt])
+}
+
+model Setting {
+  key   String @id
+  value String
+}

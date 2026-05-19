@@ -1,0 +1,45 @@
+import { Router } from "express";
+import * as controller from "../controllers/auth.controller.js";
+import { asyncHandler } from "../utils/async-handler.js";
+import { validate } from "../middleware/validate.js";
+import { authRateLimiter } from "../middleware/rate-limit.js";
+import { requireAuth } from "../middleware/auth.js";
+import {
+  forgotPasswordSchema,
+  googleLoginSchema,
+  loginSchema,
+  logoutSchema,
+  refreshSchema,
+  registerSchema,
+  resendOtpSchema,
+  resetPasswordSchema,
+  verifyOtpSchema,
+} from "../validators/auth.validators.js";
+
+export const authRouter = Router();
+
+authRouter.use(authRateLimiter);
+
+authRouter.post("/register", validate({ body: registerSchema }), asyncHandler(controller.register));
+authRouter.post("/verify-otp", validate({ body: verifyOtpSchema }), asyncHandler(controller.verifyOtp));
+authRouter.post("/resend-otp", validate({ body: resendOtpSchema }), asyncHandler(controller.resendOtp));
+authRouter.post("/login", validate({ body: loginSchema }), asyncHandler(controller.login));
+authRouter.post(
+  "/google",
+  validate({ body: googleLoginSchema }),
+  asyncHandler(controller.googleLogin),
+);
+authRouter.post("/refresh", validate({ body: refreshSchema }), asyncHandler(controller.refresh));
+authRouter.post("/logout", validate({ body: logoutSchema }), asyncHandler(controller.logout));
+authRouter.post("/logout-all", requireAuth, asyncHandler(controller.logoutAll));
+authRouter.get("/me", requireAuth, asyncHandler(controller.me));
+authRouter.post(
+  "/forgot-password",
+  validate({ body: forgotPasswordSchema }),
+  asyncHandler(controller.forgotPassword),
+);
+authRouter.post(
+  "/reset-password",
+  validate({ body: resetPasswordSchema }),
+  asyncHandler(controller.resetPassword),
+);

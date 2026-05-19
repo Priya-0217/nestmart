@@ -1,0 +1,147 @@
+<mjml>
+  <mj-body background-color="#f8fafc">
+    <mj-section background-color="#1a56db">
+      <mj-column>
+        <mj-text align="center" color="#ffffff" font-size="24px" font-weight="bold" padding="30px 0">
+          Order Confirmed ✓
+        </mj-text>
+        <mj-text align="center" color="#e0e7ff" font-size="14px" padding="0 0 30px 0">
+          Order ID: <strong>{{orderId}}</strong>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+      <mj-column width="100%">
+        <mj-text font-size="16px" color="#334155" padding="30px" font-weight="bold">
+          Thank you for your order!
+        </mj-text>
+        <mj-text font-size="14px" line-height="1.6" color="#334155" padding="0 30px">
+          Hi {{customerName}},
+        </mj-text>
+        <mj-text font-size="14px" line-height="1.6" color="#334155" padding="10px 30px">
+          Your order has been received and is being processed. Here's a summary of what you ordered:
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" border-top="1px solid #e2e8f0">
+      <mj-column width="100%">
+        <mj-text font-size="14px" font-weight="bold" color="#1e293b" padding="20px 30px">
+          Order Items
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    {{#items}}
+    <mj-section background-color="#ffffff">
+      <mj-column width="70%">
+        <mj-text font-size="13px" color="#334155" padding="10px 30px">
+          <strong>{{productName}}</strong>
+        </mj-text>
+        <mj-text font-size="12px" color="#64748b" padding="0 30px">
+          Qty: {{quantity}} × {{unitPrice}} = <strong>{{itemTotal}}</strong>
+        </mj-text>
+      </mj-column>
+      <mj-column width="30%">
+        <mj-text align="right" font-size="13px" font-weight="bold" color="#1e293b" padding="10px 30px">
+          {{itemTotal}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    {{/items}}
+
+    <mj-section background-color="#ffffff" border-top="2px solid #e2e8f0">
+      <mj-column width="70%">
+        <mj-text align="right" font-size="13px" color="#334155" padding="15px 30px">
+          Subtotal:
+        </mj-text>
+      </mj-column>
+      <mj-column width="30%">
+        <mj-text align="right" font-size="13px" color="#334155" padding="15px 30px">
+          {{subtotal}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+      <mj-column width="70%">
+        <mj-text align="right" font-size="13px" color="#334155" padding="5px 30px">
+          Shipping:
+        </mj-text>
+      </mj-column>
+      <mj-column width="30%">
+        <mj-text align="right" font-size="13px" color="#334155" padding="5px 30px">
+          {{shippingCost}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+      <mj-column width="70%">
+        <mj-text align="right" font-size="13px" color="#334155" padding="5px 30px">
+          Tax:
+        </mj-text>
+      </mj-column>
+      <mj-column width="30%">
+        <mj-text align="right" font-size="13px" color="#334155" padding="5px 30px">
+          {{tax}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f59e0b">
+      <mj-column width="70%">
+        <mj-text align="right" font-size="16px" font-weight="bold" color="#ffffff" padding="15px 30px">
+          Total:
+        </mj-text>
+      </mj-column>
+      <mj-column width="30%">
+        <mj-text align="right" font-size="18px" font-weight="bold" color="#ffffff" padding="15px 30px">
+          {{totalAmount}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+      <mj-column width="100%">
+        <mj-text font-size="12px" color="#334155" padding="20px 30px">
+          <strong>Shipping Address:</strong>
+        </mj-text>
+        <mj-text font-size="12px" color="#64748b" padding="0 30px 20px 30px" line-height="1.6">
+          {{shippingAddress}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#e0f2fe">
+      <mj-column width="100%">
+        <mj-text font-size="13px" color="#0369a1" padding="15px 30px" font-weight="bold">
+          What's Next?
+        </mj-text>
+        <mj-text font-size="12px" color="#0369a1" padding="0 30px 15px 30px" line-height="1.6">
+          We're preparing your order for shipment. You'll receive a shipping confirmation with tracking details shortly. You can also track your order anytime in your NestMart account.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff">
+      <mj-column width="100%">
+        <mj-button href="https://nestmart.com/account/orders/{{orderId}}" background-color="#1a56db" font-size="14px" padding="20px 30px">
+          Track Your Order
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f8fafc">
+      <mj-column width="100%">
+        <mj-text align="center" font-size="11px" color="#94a3b8" padding="20px">
+          Questions? Reply to this email or visit our <a href="https://nestmart.com/support" style="color: #1a56db; text-decoration: none;">Support Center</a>
+        </mj-text>
+        <mj-text align="center" font-size="10px" color="#cbd5e1" padding="10px">
+          © 2025 NestMart. All rights reserved.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

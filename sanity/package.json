@@ -1,0 +1,27 @@
+{
+  "name": "nestmart-sanity-cms",
+  "version": "1.0.0",
+  "description": "NestMart Sanity CMS Studio for homepage content management",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "start": "sanity start"
+  },
+  "dependencies": {
+    "@sanity/cli": "^3.21.0",
+    "@sanity/vision": "^3.32.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanity": "^3.32.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
