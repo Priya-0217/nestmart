@@ -9,8 +9,15 @@ const API_HOST = API_URL.endsWith('/api') ? API_URL.slice(0, -4) : API_URL;
 
 function buildApiUrl(path: string): string {
   if (path.startsWith('http')) return path;
-  const normalized = path.startsWith('/') ? path : `/${path}`;
-  return `${API_HOST}${normalized.startsWith('/api') ? normalized : `/api${normalized}`}`;
+  
+  // Strip any leading /api or api from the path to prevent double-prefixing
+  let cleanPath = path;
+  if (cleanPath.startsWith('/api/')) cleanPath = cleanPath.slice(4);
+  else if (cleanPath.startsWith('api/')) cleanPath = cleanPath.slice(3);
+  else if (cleanPath === '/api' || cleanPath === 'api') cleanPath = '/';
+  
+  const normalized = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
+  return `${API_HOST}/api${normalized}`;
 }
 
 export interface ApiError {
