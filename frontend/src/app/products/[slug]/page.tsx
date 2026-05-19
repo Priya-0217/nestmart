@@ -58,8 +58,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       price: item.price || 0,
       compareAtPrice: item.compareAtPrice ?? item.price ?? 0,
       images: item.images && item.images.length > 0 ? item.images : ['/product-placeholder.svg'],
-      ratingAverage: Number.isFinite(item.ratingAverage) ? Number(item.ratingAverage) : 0,
-      ratingCount: Number.isFinite(item.ratingCount) ? Number(item.ratingCount) : 0,
+      rating: Number.isFinite(item.ratingAverage) ? Number(item.ratingAverage) : 0,
+      reviewCount: Number.isFinite(item.ratingCount) ? Number(item.ratingCount) : 0,
       stock: Number.isFinite(item.stock) ? Number(item.stock) : 0,
       category: item.category?.name || String(item.category?._id || item.category || 'General'),
       tag: Array.isArray(item.tags) && item.tags.length > 0 ? String(item.tags[0]) : 'Featured',
@@ -89,7 +89,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
         <ProductDetailTabs description={product.description} specs={product.specs} />
 
-        <ProductReviewsSection productId={product.id} rating={product.ratingAverage} ratingCount={product.ratingCount} />
+        <ProductReviewsSection productId={product.id} rating={product.rating} ratingCount={product.reviewCount} />
 
         <RelatedProducts products={mappedRelated} />
         <RecentlyViewedStrip products={mappedBrowsePool} />
