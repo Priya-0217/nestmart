@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import nextDynamic from 'next/dynamic';
 import { heroSlides, homeCollections, homeFeatures, testimonials } from '@/data/catalog';
 import { productsApi, categoriesApi, reviewsApi, type ProductSummary, type CategoryTreeItem } from '@/lib/api';
 import { Product, Testimonial } from '@/lib/types';
@@ -11,23 +11,23 @@ import { ScrollReveal } from '@/components/motion/scroll-reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { AmbientDotPattern } from '@/components/ui/ambient-dot-pattern';
 
-const PersonalizedShelves = dynamic(
+const PersonalizedShelves = nextDynamic(
   () => import('@/features/home/components/personalized-shelves').then((m) => ({ default: m.PersonalizedShelves })),
   { ssr: false }
 );
-const CollectionStrip = dynamic(() =>
+const CollectionStrip = nextDynamic(() =>
   import('@/features/home/components/collection-strip').then((m) => ({ default: m.CollectionStrip }))
 );
-const PromoVideoText = dynamic(() =>
+const PromoVideoText = nextDynamic(() =>
   import('@/features/home/components/promo-video-text').then((m) => ({ default: m.PromoVideoText }))
 );
-const FeatureGrid = dynamic(() =>
+const FeatureGrid = nextDynamic(() =>
   import('@/features/home/components/feature-grid').then((m) => ({ default: m.FeatureGrid }))
 );
-const ReviewMarquee = dynamic(() =>
+const ReviewMarquee = nextDynamic(() =>
   import('@/features/home/components/review-marquee').then((m) => ({ default: m.ReviewMarquee }))
 );
-const NewsletterCta = dynamic(() =>
+const NewsletterCta = nextDynamic(() =>
   import('@/features/home/components/newsletter-cta').then((m) => ({ default: m.NewsletterCta }))
 );
 
