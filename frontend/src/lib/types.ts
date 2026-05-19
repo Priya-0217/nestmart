@@ -17,8 +17,8 @@ export type Product = {
   brand: string;
   tag: string;
   imageContext?: string;
-  ratingAverage: number;
-  ratingCount: number;
+  rating: number;
+  reviewCount: number;
   price: number;
   compareAtPrice: number;
   stock: number;
