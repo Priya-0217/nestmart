@@ -2,6 +2,7 @@
   "name": "nestmart-backend",
   "version": "0.3.0",
   "private": true,
+  "type": "module",
   "description": "NestMart backend API — Express + TypeScript + MVC, Mongo (via Mongoose) + Postgres (via Prisma).",
   "main": "dist/server.js",
   "scripts": {
