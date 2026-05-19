@@ -141,6 +141,7 @@ export default function AdminDashboardPage() {
                   <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: 'rgb(100 116 139)' }} />
                   <YAxis yAxisId="left" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: 'rgb(100 116 139)' }} />
                   <YAxis yAxisId="right" orientation="right" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: 'rgb(100 116 139)' }} />
+                  {/* Fixed Recharts Tooltip formatter types for production build */}
                   <Tooltip
                     formatter={(value: ValueType | undefined, name: NameType | undefined) => {
                       const isRevenue = name === 'revenue';
